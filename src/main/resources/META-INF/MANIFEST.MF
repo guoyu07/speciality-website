@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Class-Path: hibernate-commons-annotations-5.0.1.Final.jar spring-tx-4.
+ 3.6.RELEASE.jar groovy-2.4.3.jar tomcat-embed-websocket-8.5.11.jar jc
+ l-over-slf4j-1.7.22.jar classmate-1.3.1.jar hibernate-core-5.0.11.Fin
+ al.jar tomcat-juli-8.5.11.jar spring-aspects-4.3.6.RELEASE.jar jackso
+ n-databind-2.8.6.jar hibernate-jpa-2.1-api-1.0.0.Final.jar jackson-an
+ notations-2.8.0.jar javassist-3.18.1-GA.jar spring-data-jpa-1.11.0.RE
+ LEASE.jar logback-core-1.1.9.jar spring-core-4.3.6.RELEASE.jar hibern
+ ate-validator-5.3.4.Final.jar dom4j-1.6.1.jar spring-boot-autoconfigu
+ re-1.5.1.RELEASE.jar spring-webmvc-4.3.6.RELEASE.jar spring-jdbc-4.3.
+ 6.RELEASE.jar thymeleaf-2.1.5.RELEASE.jar xml-apis-1.0.b2.jar snakeya
+ ml-1.17.jar spring-boot-starter-aop-1.5.1.RELEASE.jar thymeleaf-layou
+ t-dialect-1.4.0.jar spring-aop-4.3.6.RELEASE.jar spring-boot-starter-
+ tomcat-1.5.1.RELEASE.jar tomcat-embed-core-8.5.11.jar ognl-3.0.8.jar 
+ spring-boot-starter-data-jpa-1.5.1.RELEASE.jar spring-boot-starter-lo
+ gging-1.5.1.RELEASE.jar slf4j-api-1.6.6.jar logback-classic-1.1.9.jar
+  spring-boot-starter-web-1.5.1.RELEASE.jar spring-web-4.3.6.RELEASE.j
+ ar spring-data-commons-1.13.0.RELEASE.jar mysql-connector-java-6.0.5.
+ jar spring-orm-4.3.6.RELEASE.jar spring-boot-starter-jdbc-1.5.1.RELEA
+ SE.jar jul-to-slf4j-1.7.22.jar javax.transaction-api-1.2.jar hibernat
+ e-entitymanager-5.0.11.Final.jar log4j-over-slf4j-1.7.22.jar tomcat-j
+ dbc-8.5.11.jar spring-boot-starter-thymeleaf-1.5.1.RELEASE.jar jandex
+ -2.0.0.Final.jar tomcat-embed-el-8.5.11.jar spring-expression-4.3.6.R
+ ELEASE.jar jackson-core-2.8.6.jar spring-boot-starter-1.5.1.RELEASE.j
+ ar validation-api-1.1.0.Final.jar thymeleaf-spring4-2.1.5.RELEASE.jar
+  aspectjweaver-1.8.9.jar spring-boot-1.5.1.RELEASE.jar antlr-2.7.7.ja
+ r unbescape-1.1.0.RELEASE.jar jboss-logging-3.3.0.Final.jar spring-be
+ ans-4.3.6.RELEASE.jar spring-context-4.3.6.RELEASE.jar
+Main-Class: com.hiczp.web.speciality.Application
+
