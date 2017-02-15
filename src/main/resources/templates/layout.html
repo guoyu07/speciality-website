@@ -12,9 +12,9 @@
 </head>
 
 <body>
-<div th:remove="all">
+<tag th:remove="all">
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
-</div>
+</tag>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -29,17 +29,23 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="#">首页</a></li>
-                <li class="dropdown" th:each="rootSort : ${rootSorts}">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                        <span th:text="${rootSort.name}">根分类名</span>
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li th:each="childSort : ${childSorts[rootSortStat.index]}">
-                            <a href="" th:text="${childSort.name}">子分类名</a>
-                        </li>
-                    </ul>
-                </li>
+                <!--无子分类的根分类不显示下拉菜单-->
+                <tag th:remove="tag" th:each="rootSort : ${rootSorts}">
+                    <li class="dropdown" th:if="${childSorts[rootSortStat.index].size()}">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                            <span th:remove="tag" th:text="${rootSort.name}">根分类名</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li th:each="childSort : ${childSorts[rootSortStat.index]}">
+                                <a href="" th:text="${childSort.name}">子分类名</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li th:unless="${childSorts[rootSortStat.index].size()}">
+                        <a href="" th:text="${rootSort.name}"></a>
+                    </li>
+                </tag>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -71,7 +77,7 @@
 <script th:src="@{/webjars/jquery/3.1.1-1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 
-<div th:remove="tag" layout:fragment="scripts"></div>
+<tag th:remove="tag" layout:fragment="scripts"></tag>
 
 </body>
 </html>
