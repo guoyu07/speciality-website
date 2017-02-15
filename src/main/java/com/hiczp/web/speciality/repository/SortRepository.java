@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface SortRepository extends CrudRepository<SortEntity, Integer> {
     List<SortEntity> findByParentOrderByTaxis(Integer parent);
+
+    List<SortEntity> findByParentAndNavbarOrderByTaxis(Integer parent, Byte navbar);
 }

@@ -44,7 +44,7 @@ public class AspectConfiguration {
         );
 
         //附加导航栏分类信息到返回值
-        List<SortEntity> rootSorts = sortService.getRootSorts();
+        List<SortEntity> rootSorts = sortService.getNavbarRootSorts();
         List<List<SortEntity>> allChildSorts = new ArrayList<>(rootSorts.size());
         rootSorts.forEach((rootSort) -> allChildSorts.add(sortService.getChildSorts(rootSort)));
         modelAndView.addObject("rootSorts", rootSorts)

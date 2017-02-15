@@ -3,7 +3,7 @@ package com.hiczp.web.speciality.entity;
 import javax.persistence.*;
 
 /**
- * Created by czp on 17-2-14.
+ * Created by czp on 17-2-16.
  */
 @Entity
 @Table(name = "config", schema = "speciality_website", catalog = "")

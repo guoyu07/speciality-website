@@ -21,6 +21,10 @@ public class SortService {
         return sortRepository.findByParentOrderByTaxis(0);
     }
 
+    public List<SortEntity> getNavbarRootSorts() {
+        return sortRepository.findByParentAndNavbarOrderByTaxis(0, new Byte("1"));
+    }
+
     public List<SortEntity> getChildSorts(SortEntity sortEntity) {
         return sortRepository.findByParentOrderByTaxis(sortEntity.getId());
     }
