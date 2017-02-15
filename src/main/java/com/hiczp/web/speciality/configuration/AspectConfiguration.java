@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,10 +36,12 @@ public class AspectConfiguration {
     public void afterNormalControllerReturning(Object result) {
         ModelAndView modelAndView = (ModelAndView) result;
         //附加设置信息到返回值
-        modelAndView.addObject("specialityName", configRepository.findByKey("speciality-name").getValue())
-                .addObject("universityName", configRepository.findByKey("university-name").getValue())
-                .addObject("copyright", configRepository.findByKey("copyright").getValue())
-                .addObject("icp", configRepository.findByKey("icp").getValue());
+        configRepository.findByKeyIn(Arrays.asList("specialityName",
+                "universityName",
+                "copyright",
+                "icp")).forEach((configEntity) ->
+                modelAndView.addObject(configEntity.getKey(), configEntity.getValue())
+        );
 
         //附加导航栏分类信息到返回值
         List<SortEntity> rootSorts = sortService.getRootSorts();
