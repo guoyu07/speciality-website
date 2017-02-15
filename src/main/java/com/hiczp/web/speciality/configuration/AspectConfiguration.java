@@ -35,13 +35,16 @@ public class AspectConfiguration {
     public void afterNormalControllerReturning(Object result) {
         ModelAndView modelAndView = (ModelAndView) result;
         //附加设置信息到返回值
-        modelAndView.addObject("specialityName", configRepository.findByKey("speciality-name").getValue());
-        modelAndView.addObject("universityName", configRepository.findByKey("university-name").getValue());
+        modelAndView.addObject("specialityName", configRepository.findByKey("speciality-name").getValue())
+                .addObject("universityName", configRepository.findByKey("university-name").getValue())
+                .addObject("copyright", configRepository.findByKey("copyright").getValue())
+                .addObject("icp", configRepository.findByKey("icp").getValue());
+
         //附加导航栏分类信息到返回值
         List<SortEntity> rootSorts = sortService.getRootSorts();
         List<List<SortEntity>> allChildSorts = new ArrayList<>(rootSorts.size());
         rootSorts.forEach((rootSort) -> allChildSorts.add(sortService.getChildSorts(rootSort)));
-        modelAndView.addObject("rootSorts", rootSorts);
-        modelAndView.addObject("childSorts", allChildSorts);
+        modelAndView.addObject("rootSorts", rootSorts)
+                .addObject("childSorts", allChildSorts);
     }
 }

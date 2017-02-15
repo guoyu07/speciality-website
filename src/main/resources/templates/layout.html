@@ -31,9 +31,7 @@
                 <li><a href="#">首页</a></li>
                 <li class="dropdown" th:each="rootSort : ${rootSorts}">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                        <span th:text="${rootSort.name}">
-                            根分类名
-                        </span>
+                        <span th:text="${rootSort.name}">根分类名</span>
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
@@ -62,6 +60,13 @@
 <div class="container" layout:fragment="content">
     Content
 </div>
+
+<footer class="panel-footer navbar-fixed-bottom">
+    <div class="container">
+        <p class="text-muted" th:text="${copyright}">©2017 浙江大学宁波理工学院</p>
+        <p class="text-muted" th:text="${icp}">浙ICP备 2333333 号</p>
+    </div>
+</footer>
 
 <script th:src="@{/webjars/jquery/3.1.1-1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
