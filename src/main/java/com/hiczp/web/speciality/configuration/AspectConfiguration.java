@@ -39,14 +39,14 @@ public class AspectConfiguration {
         configRepository.findByKeyIn(Arrays.asList("specialityName",
                 "universityName",
                 "copyright",
-                "icp")).forEach((configEntity) ->
+                "icp")).forEach(configEntity ->
                 modelAndView.addObject(configEntity.getKey(), configEntity.getValue())
         );
 
         //附加导航栏分类信息到返回值
         List<SortEntity> rootSorts = sortService.getNavbarRootSorts();
         List<List<SortEntity>> allChildSorts = new ArrayList<>(rootSorts.size());
-        rootSorts.forEach((rootSort) -> allChildSorts.add(sortService.getChildSorts(rootSort)));
+        rootSorts.forEach(rootSort -> allChildSorts.add(sortService.getChildSorts(rootSort)));
         modelAndView.addObject("rootSorts", rootSorts)
                 .addObject("childSorts", allChildSorts);
     }

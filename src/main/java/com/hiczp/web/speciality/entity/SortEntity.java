@@ -3,7 +3,7 @@ package com.hiczp.web.speciality.entity;
 import javax.persistence.*;
 
 /**
- * Created by czp on 17-2-16.
+ * Created by czp on 17-2-17.
  */
 @Entity
 @Table(name = "sort", schema = "speciality_website", catalog = "")
@@ -13,7 +13,6 @@ public class SortEntity {
     private Integer parent;
     private Integer taxis;
     private String type;
-    private Byte navbar;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -65,16 +64,6 @@ public class SortEntity {
         this.type = type;
     }
 
-    @Basic
-    @Column(name = "navbar", nullable = true)
-    public Byte getNavbar() {
-        return navbar;
-    }
-
-    public void setNavbar(Byte navbar) {
-        this.navbar = navbar;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -87,7 +76,6 @@ public class SortEntity {
         if (parent != null ? !parent.equals(that.parent) : that.parent != null) return false;
         if (taxis != null ? !taxis.equals(that.taxis) : that.taxis != null) return false;
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
-        if (navbar != null ? !navbar.equals(that.navbar) : that.navbar != null) return false;
 
         return true;
     }
@@ -99,7 +87,6 @@ public class SortEntity {
         result = 31 * result + (parent != null ? parent.hashCode() : 0);
         result = 31 * result + (taxis != null ? taxis.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (navbar != null ? navbar.hashCode() : 0);
         return result;
     }
 }

@@ -1,0 +1,23 @@
+.main-index-sort > .panel-body > .row {
+    min-height: 136px;
+}
+
+.carousel {
+    margin-bottom: 20px;
+}
+
+.panel-body a {
+    color: #444;
+}
+
+.article-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.article-title * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by czp on 17-2-16.
+ * Created by czp on 17-2-17.
  */
 @Entity
 @Table(name = "article", schema = "speciality_website", catalog = "")
@@ -15,6 +15,7 @@ public class ArticleEntity {
     private Integer sort;
     private Integer views;
     private Timestamp createTime;
+    private String image;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -76,6 +77,16 @@ public class ArticleEntity {
         this.createTime = createTime;
     }
 
+    @Basic
+    @Column(name = "image", nullable = true, length = 255)
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,6 +100,7 @@ public class ArticleEntity {
         if (sort != null ? !sort.equals(that.sort) : that.sort != null) return false;
         if (views != null ? !views.equals(that.views) : that.views != null) return false;
         if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
+        if (image != null ? !image.equals(that.image) : that.image != null) return false;
 
         return true;
     }
@@ -101,6 +113,7 @@ public class ArticleEntity {
         result = 31 * result + (sort != null ? sort.hashCode() : 0);
         result = 31 * result + (views != null ? views.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
     }
 }

@@ -1,11 +1,81 @@
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
 <head>
-
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
 </head>
 <body>
 <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="/css/index.css"/>
 <div class="container" layout:fragment="content">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default main-index-sort">
+                <div class="panel-heading">
+                    <strong th:text="${mainIndexSort.name}">主分类标题</strong>
+                    <a class="pull-right" href=""><span class="fa fa-angle-right"></span>更多</a>
+                </div>
+                <div class="panel-body">
+                    <div class="row" th:each="mainIndexSortArticle : ${mainIndexSortArticles}">
+                        <div class="col-md-3">
+                            <img class="img-responsive" src="" th:src="${mainIndexSortArticle.image}"/>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="article-title">
+                                <p><a href=""><strong th:text="${mainIndexSortArticle.title}">文章标题</strong></a></p>
+                            </div>
+                            <small class="text-muted" th:text="${mainIndexSortArticle.content}">文章摘要</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-md-4">
+            <div class="carousel slide" id="imageCarousel">
+                <ol class="carousel-indicators">
+                    <tag th:remove="tag" th:each="carouselImage : ${carouselImages}">
+                        <li class="active" data-target="#imageCarousel"
+                            th:attr="data-slide-to = ${carouselImageStat.index}"
+                            th:class="${carouselImageStat.index==0?'active':''}"></li>
+                    </tag>
+                </ol>
+
+                <div class="carousel-inner">
+                    <tag th:remove="tag" th:each="carouselImage : ${carouselImages}">
+                        <div class="item" th:class="'item' + ${carouselImageStat.index==0?' active':''}">
+                            <img width="100%" height="100%" src="" th:src="${carouselImage}"/>
+                        </div>
+                    </tag>
+                </div>
+
+                <a class="carousel-control left" href="#imageCarousel" data-slide="prev">&lsaquo;</a>
+                <a class="carousel-control right" href="#imageCarousel" data-slide="next">&rsaquo;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4" th:each="indexSort : ${indexSorts}">
+            <div class="panel panel-default index-sort">
+                <div class="panel-heading">
+                    <strong th:text="${indexSort.name}">分类标题</strong>
+                    <a class="pull-right" href=""><span class="fa fa-angle-right"></span>更多</a>
+                </div>
+                <div class="panel-body">
+                    <div class="row" th:each="article : ${indexSortArticles[indexSortStat.index]}">
+                        <div class="col-xs-8 article-title">
+                            <a href="" th:text="${article.title}">文章标题</a>
+                        </div>
+                        <div class="col-xs-4">
+                            <p class="pull-right text-muted"
+                               th:text="${#dates.format(article.createTime,'yyyy-MM-dd')}">文章发布日期</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
