@@ -4,13 +4,14 @@
 
 <ol class="breadcrumb" th:fragment="breadcrumb(breadcrumbsChain,articleEntity)">
     <li></li>
+    <li><a th:href="@{/}">首页</a></li>
     <tag th:remove="tag" th:each="breadcrumb : ${breadcrumbsChain}">
-        <li th:unless="${breadcrumbStat.last}">
+        <li th:if="${!breadcrumbStat.last or articleEntity!=null}">
             <a th:href="@{/sort/{id}(id=${breadcrumb.id})}" th:text="${breadcrumb.name}">面包屑标题</a>
         </li>
-        <li class="active" th:if="${breadcrumbStat.last}" th:text="${breadcrumb.name}"></li>
+        <li class="active" th:if="${breadcrumbStat.last and articleEntity==null}" th:text="${breadcrumb.name}"></li>
     </tag>
-    <li th:if="${articleEntity}" th:text="${articleEntity.title}">文章名</li>
+    <li class="active" th:if="${articleEntity}" th:text="${articleEntity.title}">文章名</li>
 </ol>
 
 </body>

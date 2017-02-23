@@ -23,7 +23,11 @@
                         </div>
                         <div class="col-md-9">
                             <div class="article-title">
-                                <p><a href=""><strong th:text="${mainIndexSortArticle.title}">文章标题</strong></a></p>
+                                <p>
+                                    <a th:href="@{/article/{id}(id=${mainIndexSortArticle.id})}">
+                                        <strong th:text="${mainIndexSortArticle.title}">文章标题</strong>
+                                    </a>
+                                </p>
                             </div>
                             <small class="text-muted" th:text="${mainIndexSortArticle.content}">文章摘要</small>
                         </div>
@@ -37,7 +41,7 @@
                 <ol class="carousel-indicators">
                     <tag th:remove="tag" th:each="carouselImage : ${carouselImages}">
                         <li class="active" data-target="#imageCarousel"
-                            th:attr="data-slide-to = ${carouselImageStat.index}"
+                            th:attr="data-slide-to=${carouselImageStat.index}"
                             th:class="${carouselImageStat.index==0?'active':''}"></li>
                     </tag>
                 </ol>
@@ -67,7 +71,7 @@
                 <div class="panel-body">
                     <div class="row" th:each="article : ${indexSortArticles[indexSortStat.index]}">
                         <div class="col-xs-8 article-title">
-                            <a href="" th:text="${article.title}">文章标题</a>
+                            <a href="" th:href="@{/article/{id}(id=${article.id})}" th:text="${article.title}">文章标题</a>
                         </div>
                         <div class="col-xs-4">
                             <p class="pull-right text-muted"

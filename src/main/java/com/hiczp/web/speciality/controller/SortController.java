@@ -50,7 +50,8 @@ public class SortController {
                 //如果有子分类
                 List<SortEntity> childSorts = sortService.getChildSorts(sortEntity);
                 if (childSorts.size() != 0) {
-                    return new ModelAndView(new RedirectView(String.format("/sort/%d", childSorts.get(0).getId()), false));
+                    modelAndView.setView(new RedirectView(String.valueOf(childSorts.get(0).getId()), true, true, false));
+                    return modelAndView;
                 }
             }
         } else if (sortEntity.getType().equals(ArticleType.ARTICLE.toString())) {   //文章分类
