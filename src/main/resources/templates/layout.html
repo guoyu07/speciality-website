@@ -24,11 +24,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" th:text="${specialityName}">软件工程专业</a>
+            <a class="navbar-brand" th:href="@{/}" th:text="${specialityName}">软件工程专业</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#">首页</a></li>
+                <li><a th:href="@{/}">首页</a></li>
                 <!--无子分类的根分类不显示下拉菜单-->
                 <tag th:remove="tag" th:each="rootSort : ${rootSorts}">
                     <li class="dropdown" th:if="${childSorts[rootSortStat.index].size()}">
@@ -38,12 +38,12 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li th:each="childSort : ${childSorts[rootSortStat.index]}">
-                                <a href="" th:text="${childSort.name}">子分类名</a>
+                                <a th:href="@{/sort/{id}(id=${childSort.id})}" th:text="${childSort.name}">子分类名</a>
                             </li>
                         </ul>
                     </li>
                     <li th:unless="${childSorts[rootSortStat.index].size()}">
-                        <a href="" th:text="${rootSort.name}"></a>
+                        <a th:href="@{/sort/{id}(id=${rootSort.id})}" th:text="${rootSort.name}"></a>
                     </li>
                 </tag>
             </ul>

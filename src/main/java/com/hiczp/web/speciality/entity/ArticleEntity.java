@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by czp on 17-2-17.
+ * Created by czp on 17-2-23.
  */
 @Entity
 @Table(name = "article", schema = "speciality_website", catalog = "")

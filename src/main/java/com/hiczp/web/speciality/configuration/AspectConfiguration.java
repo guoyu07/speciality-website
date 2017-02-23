@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +36,11 @@ public class AspectConfiguration {
     @AfterReturning(pointcut = "normalController()", returning = "result")
     public void afterNormalControllerReturning(Object result) {
         ModelAndView modelAndView = (ModelAndView) result;
+        //如果是重定向视图则不添加信息
+        if (modelAndView.getView() instanceof RedirectView) {
+            return;
+        }
+
         //附加设置信息到返回值
         configRepository.findByKeyIn(Arrays.asList("specialityName",
                 "universityName",

@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <link rel="stylesheet" th:href="@{/css/sort/index.css}"/>
+</head>
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/css/sort/index.css"/>
+<div class="container" layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div th:replace="fragments/breadcrumb_fragment::breadcrumb(${breadcrumbsChain},null)"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div th:replace="fragments/sidebar_fragment::sidebar(${sidebarSorts},${sidebarActive})"></div>
+        </div>
+
+        <div class="col-md-9" th:if="${isArticle}">
+            <div th:replace="fragments/article_fragment::article(${articleEntities[0]})"></div>
+        </div>
+        <div class="col-md-9" th:unless="${isArticle}">
+            <div th:replace="fragments/article_list_fragment::article_list(${articleEntities})"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

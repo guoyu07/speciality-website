@@ -1,0 +1,14 @@
+.article-list {
+    padding-left: 0;
+    list-style: none;
+}
+
+.article-list > li {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-bottom: solid 1px #ddd;
+}
+
+.article-list > li a {
+    color: #555;
+}

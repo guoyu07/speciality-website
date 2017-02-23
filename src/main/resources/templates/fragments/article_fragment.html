@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+<div class="panel panel-default" th:fragment="article(articleEntity)">
+    <div class="panel-body">
+        <h3 class="text-center" th:text="${articleEntity.title}">文章标题</h3>
+        <ul class="list-inline list-unstyled text-center text-muted">
+            <li>
+                <span class="fa fa-clock-o"></span>
+                <span th:text="${#dates.format(articleEntity.createTime,'yyyy-MM-dd')}"></span>
+            </li>
+            <li>
+                <span class="fa fa-eye"></span>
+                <span th:text="${articleEntity.views}"></span>
+            </li>
+        </ul>
+
+        <hr/>
+
+        <div th:utext="${articleEntity.content}"></div>
+    </div>
+</div>
+
+</body>
+</html>

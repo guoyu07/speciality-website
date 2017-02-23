@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Controller
 public class HomeController {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
     private SortRepository sortRepository;
     private ArticleRepository articleRepository;
     private ConfigRepository configRepository;
@@ -35,7 +35,6 @@ public class HomeController {
 
     @GetMapping("/")
     public ModelAndView index(ModelAndView modelAndView) {
-        modelAndView.setViewName("/home/index");
         SortEntity mainIndexSort = null;
         List<ArticleEntity> mainIndexSortArticles = new ArrayList<>();
         List<SortEntity> indexSorts = new ArrayList<>();
@@ -73,6 +72,7 @@ public class HomeController {
         //carousel
         carouselImages = JSON.parseArray(configRepository.findByKey("carouselImages").getValue(), String.class);
 
+        modelAndView.setViewName("/home/index");
         return modelAndView.addObject("mainIndexSort", mainIndexSort)
                 .addObject("mainIndexSortArticles", mainIndexSortArticles)
                 .addObject("indexSorts", indexSorts)

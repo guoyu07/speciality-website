@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+
+<div class="panel panel-default" th:fragment="article_list(articleEntities)">
+    <div class="panel-body">
+        <ul class="article-list" th:if="${articleEntities.size()}">
+            <li th:each="articleEntity : ${articleEntities}">
+                <a th:href="@{/article/{id}(id=${articleEntity.id})}" th:text="${articleEntity.title}">文章标题</a>
+                <span class="pull-right text-muted">2017-02-31</span>
+            </li>
+        </ul>
+
+        <span th:unless="${articleEntities.size()}">本分类下暂无文章</span>
+    </div>
+</div>
+
+</body>
+</html>

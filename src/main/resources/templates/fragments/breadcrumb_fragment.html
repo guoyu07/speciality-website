@@ -1,0 +1,17 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+
+<ol class="breadcrumb" th:fragment="breadcrumb(breadcrumbsChain,articleEntity)">
+    <li></li>
+    <tag th:remove="tag" th:each="breadcrumb : ${breadcrumbsChain}">
+        <li th:unless="${breadcrumbStat.last}">
+            <a th:href="@{/sort/{id}(id=${breadcrumb.id})}" th:text="${breadcrumb.name}">面包屑标题</a>
+        </li>
+        <li class="active" th:if="${breadcrumbStat.last}" th:text="${breadcrumb.name}"></li>
+    </tag>
+    <li th:if="${articleEntity}" th:text="${articleEntity.title}">文章名</li>
+</ol>
+
+</body>
+</html>

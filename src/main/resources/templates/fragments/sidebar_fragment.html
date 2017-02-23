@@ -1,0 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+
+<div class="list-group" th:fragment="sidebar(sidebarSorts,sidebarActive)">
+    <tag th:remove="tag" th:each="sidebarSort : ${sidebarSorts}">
+        <a class="list-group-item" th:classappend="${sidebarSort==sidebarActive?'active':''}"
+           th:href="@{/sort/{id}(id=${sidebarSort.id})}" th:text="${sidebarSort.name}">侧边栏分类</a>
+    </tag>
+</div>
+
+</body>
+</html>
