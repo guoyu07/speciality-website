@@ -8,7 +8,8 @@
         <ul class="article-list" th:if="${articleEntities.totalElements}">
             <li th:each="articleEntity : ${articleEntities}">
                 <a th:href="@{/article/{id}(id=${articleEntity.id})}" th:text="${articleEntity.title}">文章标题</a>
-                <span class="pull-right text-muted">2017-02-31</span>
+                <span class="pull-right text-muted"
+                      th:text="${#dates.format(articleEntity.createTime,'yyyy-MM-dd')}"></span>
             </li>
         </ul>
 
