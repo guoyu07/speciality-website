@@ -3,6 +3,7 @@ package com.hiczp.web.speciality.controller;
 import com.hiczp.web.speciality.entity.ArticleEntity;
 import com.hiczp.web.speciality.entity.SortEntity;
 import com.hiczp.web.speciality.enumeration.ArticleType;
+import com.hiczp.web.speciality.exception.SortNotFoundException;
 import com.hiczp.web.speciality.repository.ArticleRepository;
 import com.hiczp.web.speciality.repository.SortRepository;
 import com.hiczp.web.speciality.service.ArticleService;
@@ -39,6 +40,9 @@ public class SortController {
     @GetMapping("/{id}")
     public ModelAndView index(ModelAndView modelAndView, @PathVariable Integer id, Pageable pageable) {
         SortEntity sortEntity = sortRepository.findOne(id);
+        if (sortEntity == null) {
+            throw new SortNotFoundException();
+        }
         Boolean isArticle = false;
         List<ArticleEntity> articleEntities = new ArrayList<>();
 
@@ -50,7 +54,7 @@ public class SortController {
                 //如果有子分类
                 List<SortEntity> childSorts = sortService.getChildSorts(sortEntity);
                 if (childSorts.size() != 0) {
-                    modelAndView.setView(new RedirectView(String.valueOf(childSorts.get(0).getId()), true, true, false));
+                    modelAndView.setView(new RedirectView(String.valueOf(childSorts.get(0).getId())));
                     return modelAndView;
                 }
             }
@@ -61,6 +65,8 @@ public class SortController {
                 articleEntities.add(articleEntity);
                 articleService.viewArticleAsync(articleEntity);
             }
+        } else {
+            throw new RuntimeException(String.format("Illegal sort type '%s'", sortEntity.getType()));
         }
 
         modelAndView.setViewName("/sort/index");

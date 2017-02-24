@@ -2,6 +2,7 @@ package com.hiczp.web.speciality.controller;
 
 import com.hiczp.web.speciality.entity.ArticleEntity;
 import com.hiczp.web.speciality.entity.SortEntity;
+import com.hiczp.web.speciality.exception.ArticleNotFoundException;
 import com.hiczp.web.speciality.repository.ArticleRepository;
 import com.hiczp.web.speciality.repository.SortRepository;
 import com.hiczp.web.speciality.service.ArticleService;
@@ -33,6 +34,9 @@ public class ArticleController {
     @GetMapping("/{id}")
     public ModelAndView index(ModelAndView modelAndView, @PathVariable Integer id) {
         ArticleEntity articleEntity = articleRepository.findOne(id);
+        if (articleEntity == null) {
+            throw new ArticleNotFoundException();
+        }
         SortEntity sortEntity = sortRepository.findOne(articleEntity.getSort());
         articleService.viewArticleAsync(articleEntity);
 
