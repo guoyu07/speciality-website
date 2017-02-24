@@ -17,7 +17,8 @@
                             class="fa fa-angle-right"></span>更多</a>
                 </div>
                 <div class="panel-body">
-                    <div class="row" th:each="mainIndexSortArticle : ${mainIndexSortArticles}">
+                    <div class="row" th:if="${mainIndexSortArticles.size()}"
+                         th:each="mainIndexSortArticle : ${mainIndexSortArticles}">
                         <div class="col-md-3">
                             <img class="img-responsive" src="" th:src="${mainIndexSortArticle.image}"/>
                         </div>
@@ -32,6 +33,7 @@
                             <small class="text-muted" th:text="${mainIndexSortArticle.content}">文章摘要</small>
                         </div>
                     </div>
+                    <span th:unless="${mainIndexSortArticles.size()}">此分类暂无文章</span>
                 </div>
             </div>
         </div>
@@ -69,7 +71,8 @@
                             class="fa fa-angle-right"></span>更多</a>
                 </div>
                 <div class="panel-body">
-                    <div class="row" th:each="article : ${indexSortArticles[indexSortStat.index]}">
+                    <div class="row" th:if="${indexSortArticles[indexSortStat.index].size()}"
+                         th:each="article : ${indexSortArticles[indexSortStat.index]}">
                         <div class="col-xs-8 article-title">
                             <a href="" th:href="@{/article/{id}(id=${article.id})}" th:text="${article.title}">文章标题</a>
                         </div>
@@ -78,6 +81,7 @@
                                th:text="${#dates.format(article.createTime,'yyyy-MM-dd')}">文章发布日期</p>
                         </div>
                     </div>
+                    <span th:unless="${indexSortArticles[indexSortStat.index].size()}">此分类暂无文章</span>
                 </div>
             </div>
         </div>

@@ -49,7 +49,10 @@ public class HomeController {
             //将文章内容转成摘要, 摘取前一百个字
             mainIndexSortArticles.parallelStream().forEach(articleEntity -> {
                 Document document = Jsoup.parse(articleEntity.getContent());
-                articleEntity.setContent(document.text().substring(0, 100));
+                String text = document.text();
+                if (text.length() > 100) {
+                    articleEntity.setContent(document.text().substring(0, 100));
+                }
             });
         } catch (NumberFormatException e) {
             logger.error("未配置 mainIndexSort");
