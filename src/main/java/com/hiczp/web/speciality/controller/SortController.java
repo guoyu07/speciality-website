@@ -8,6 +8,7 @@ import com.hiczp.web.speciality.repository.ArticleRepository;
 import com.hiczp.web.speciality.repository.SortRepository;
 import com.hiczp.web.speciality.service.ArticleService;
 import com.hiczp.web.speciality.service.SortService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,13 +44,14 @@ public class SortController {
             throw new SortNotFoundException();
         }
         Boolean isArticle = false;
-        List<ArticleEntity> articleEntities = new ArrayList<>();
+        Page<ArticleEntity> articleEntities = null;
+        ArticleEntity articleEntity = null;
 
         //普通分类
         if (sortEntity.getType().equals(ArticleType.NORMAL.toString())) {
-            articleEntities = articleRepository.findBySortOrderByCreateTimeDesc(id, pageable).getContent();
+            articleEntities = articleRepository.findBySortOrderByCreateTimeDesc(id, pageable);
             //为根分类且无文章则跳转到下属的第一个子分类
-            if (sortEntity.getParent() == 0 && articleEntities.size() == 0) {
+            if (sortEntity.getParent() == 0 && articleEntities.getTotalElements() == 0) {
                 //如果有子分类
                 List<SortEntity> childSorts = sortService.getChildSorts(sortEntity);
                 if (childSorts.size() != 0) {
@@ -59,10 +60,9 @@ public class SortController {
                 }
             }
         } else if (sortEntity.getType().equals(ArticleType.ARTICLE.toString())) {   //文章分类
-            ArticleEntity articleEntity = articleRepository.findFirstBySortOrderByCreateTimeDesc(id);
+            articleEntity = articleRepository.findFirstBySortOrderByCreateTimeDesc(id);
             if (articleEntity != null) {
                 isArticle = true;
-                articleEntities.add(articleEntity);
                 articleService.viewArticleAsync(articleEntity);
             }
         } else {
@@ -72,6 +72,8 @@ public class SortController {
         modelAndView.setViewName("/sort/index");
         return modelAndView.addObject("isArticle", isArticle)
                 .addObject("articleEntities", articleEntities)
+                .addObject("path", String.format("/sort/%d", id))
+                .addObject("articleEntity", articleEntity)
                 .addObject("sidebarSorts", sortService.getSidebarSorts(sortEntity))
                 .addObject("sidebarActive", sortEntity)
                 .addObject("breadcrumbsChain", sortService.getParentsChain(sortEntity));

@@ -42,8 +42,8 @@ public class ArticleController {
 
         modelAndView.setViewName("/article/index");
         return modelAndView.addObject("articleEntity", articleEntity)
-                .addObject("sidebarSorts", sortService.getSidebarSorts(sortEntity))
+                .addObject("sidebarSorts", sortEntity != null ? sortService.getSidebarSorts(sortEntity) : sortService.getRootSorts())
                 .addObject("sidebarActive", sortEntity)
-                .addObject("breadcrumbsChain", sortService.getParentsChain(sortEntity));
+                .addObject("breadcrumbsChain", sortEntity != null ? sortService.getParentsChain(sortEntity) : null);
     }
 }

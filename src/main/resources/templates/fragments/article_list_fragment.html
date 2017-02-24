@@ -1,17 +1,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
-<div class="panel panel-default" th:fragment="article_list(articleEntities)">
+<div class="panel panel-default" th:fragment="article_list(articleEntities,path)">
     <div class="panel-body">
-        <ul class="article-list" th:if="${articleEntities.size()}">
+        <ul class="article-list" th:if="${articleEntities.totalElements}">
             <li th:each="articleEntity : ${articleEntities}">
                 <a th:href="@{/article/{id}(id=${articleEntity.id})}" th:text="${articleEntity.title}">文章标题</a>
                 <span class="pull-right text-muted">2017-02-31</span>
             </li>
         </ul>
 
-        <span th:unless="${articleEntities.size()}">本分类下暂无文章</span>
+        <span th:unless="${articleEntities.totalElements}">本分类下暂无文章</span>
+
+        <div class="row" th:if="${articleEntities.totalElements}">
+            <div class="col-md-12">
+                <div th:replace="fragments/pagination_fragment::pagination(${articleEntities},${path})"></div>
+            </div>
+        </div>
     </div>
 </div>
 

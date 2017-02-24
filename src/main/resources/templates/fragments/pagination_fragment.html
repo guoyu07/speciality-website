@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+
+<ul class="pagination" th:fragment="pagination(articleEntities,path)">
+    <li th:class="${articleEntities.first?'disabled':''}">
+        <a th:href="@{{path}(path=${path},page=0)}">
+            <span class="fa fa-angle-double-left"></span>
+        </a>
+    </li>
+    <tag th:remove="tag" th:each="page : ${#numbers.sequence(0,articleEntities.totalPages - 1)}">
+        <li th:class="${page==articleEntities.number}?'active':''">
+            <a th:href="@{{path}(path=${path},page=${page})}" th:text="${page + 1}">页码</a>
+        </li>
+    </tag>
+    <li th:class="${articleEntities.last?'disabled':''}">
+        <a th:href="@{{path}(path=${path},page=${articleEntities.totalPages - 1})}">
+            <span class="fa fa-angle-double-right"></span>
+        </a>
+    </li>
+</ul>
+
+</body>
+</html>

@@ -19,10 +19,10 @@
         </div>
 
         <div class="col-md-9" th:if="${isArticle}">
-            <div th:replace="fragments/article_fragment::article(${articleEntities[0]})"></div>
+            <div th:replace="fragments/article_fragment::article(${articleEntity})"></div>
         </div>
         <div class="col-md-9" th:unless="${isArticle}">
-            <div th:replace="fragments/article_list_fragment::article_list(${articleEntities})"></div>
+            <div th:replace="fragments/article_list_fragment::article_list(${articleEntities},${path})"></div>
         </div>
     </div>
 </div>

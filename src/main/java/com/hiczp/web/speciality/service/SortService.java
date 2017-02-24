@@ -27,6 +27,10 @@ public class SortService {
         this.articleRepository = articleRepository;
     }
 
+    public List<SortEntity> getRootSorts() {
+        return sortRepository.findByParentOrderByTaxis(0);
+    }
+
     public List<SortEntity> getNavbarRootSorts() {
         List<SortEntity> sortEntities = new ArrayList<>();
         List<Integer> ids = JSON.parseArray(configRepository.findByKey("navbarSorts").getValue(), Integer.class);
