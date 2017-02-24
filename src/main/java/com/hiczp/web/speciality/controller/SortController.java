@@ -9,6 +9,7 @@ import com.hiczp.web.speciality.repository.SortRepository;
 import com.hiczp.web.speciality.service.ArticleService;
 import com.hiczp.web.speciality.service.SortService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,9 +63,12 @@ public class SortController {
             }
         } else if (sortEntity.getType().equals(ArticleType.ARTICLE.toString())) {   //文章分类
             articleEntity = articleRepository.findFirstBySortOrderByCreateTimeDesc(id);
+            //对应的文章存在时
             if (articleEntity != null) {
                 isArticle = true;
                 articleService.viewArticleAsync(articleEntity);
+            } else {    //对应的文章不存在时, 将返回值赋值为空的 Page
+                articleEntities = new PageImpl<>(new ArrayList<>());
             }
         } else {
             throw new RuntimeException(String.format("Illegal sort type '%s'", sortEntity.getType()));
