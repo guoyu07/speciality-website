@@ -49,8 +49,7 @@ public class SortController {
         Page<ArticleEntity> articleEntities = null;
         ArticleEntity articleEntity = null;
 
-        //普通分类
-        if (sortEntity.getType().equals(ArticleType.NORMAL.toString())) {
+        if (sortEntity.getType().equals(ArticleType.NORMAL.toString())) {   //普通分类
             articleEntities = articleRepository.findBySortOrderByCreateTimeDesc(id, pageable);
             //为根分类且无文章则跳转到下属的第一个子分类
             if (sortEntity.getParent() == 0 && articleEntities.getTotalElements() == 0) {
@@ -70,7 +69,7 @@ public class SortController {
             } else {    //对应的文章不存在时, 将返回值赋值为空的 Page
                 articleEntities = new PageImpl<>(new ArrayList<>());
             }
-        } else {
+        } else {    //分类类型非法
             throw new RuntimeException(String.format("Illegal sort type '%s'", sortEntity.getType()));
         }
 

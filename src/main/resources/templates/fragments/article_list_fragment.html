@@ -15,7 +15,7 @@
 
         <span th:unless="${articleEntities.totalElements}">本分类下暂无文章</span>
 
-        <div class="row" th:if="${articleEntities.totalElements}">
+        <div class="row" th:if="${articleEntities.totalPages>1}">
             <div class="col-md-12">
                 <div th:replace="fragments/pagination_fragment::pagination(${articleEntities},${path})"></div>
             </div>
