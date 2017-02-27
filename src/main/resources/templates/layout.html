@@ -49,9 +49,9 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <form class="navbar-form">
+                    <form class="navbar-form" th:action="@{/search}">
                         <div class="form-group">
-                            <input class="form-control" placeholder="搜索"/>
+                            <input class="form-control" name="word" placeholder="搜索"/>
                         </div>
                     </form>
                 </li>

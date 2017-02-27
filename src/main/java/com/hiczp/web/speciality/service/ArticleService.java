@@ -2,6 +2,8 @@ package com.hiczp.web.speciality.service;
 
 import com.hiczp.web.speciality.entity.ArticleEntity;
 import com.hiczp.web.speciality.repository.ArticleRepository;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,15 @@ public class ArticleService {
 
     public ArticleService(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
+    }
+
+    public String getSummary(String content, int wordCountLimit) {
+        Document document = Jsoup.parse(content);
+        String text = document.text();
+        if (text.length() > wordCountLimit) {
+            text = text.substring(0, wordCountLimit) + "...";
+        }
+        return text;
     }
 
     @Async

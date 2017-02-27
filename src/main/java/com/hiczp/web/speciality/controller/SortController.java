@@ -2,7 +2,7 @@ package com.hiczp.web.speciality.controller;
 
 import com.hiczp.web.speciality.entity.ArticleEntity;
 import com.hiczp.web.speciality.entity.SortEntity;
-import com.hiczp.web.speciality.enumeration.ArticleType;
+import com.hiczp.web.speciality.enumeration.SortType;
 import com.hiczp.web.speciality.exception.SortNotFoundException;
 import com.hiczp.web.speciality.repository.ArticleRepository;
 import com.hiczp.web.speciality.repository.SortRepository;
@@ -49,7 +49,7 @@ public class SortController {
         Page<ArticleEntity> articleEntities = null;
         ArticleEntity articleEntity = null;
 
-        if (sortEntity.getType().equals(ArticleType.NORMAL.toString())) {   //普通分类
+        if (sortEntity.getType().equals(SortType.NORMAL.toString())) {   //普通分类
             articleEntities = articleRepository.findBySortOrderByCreateTimeDesc(id, pageable);
             //为根分类且无文章则跳转到下属的第一个子分类
             if (sortEntity.getParent() == 0 && articleEntities.getTotalElements() == 0) {
@@ -60,7 +60,7 @@ public class SortController {
                     return modelAndView;
                 }
             }
-        } else if (sortEntity.getType().equals(ArticleType.ARTICLE.toString())) {   //文章分类
+        } else if (sortEntity.getType().equals(SortType.ARTICLE.toString())) {   //文章分类
             articleEntity = articleRepository.findFirstBySortOrderByCreateTimeDesc(id);
             //对应的文章存在时
             if (articleEntity != null) {

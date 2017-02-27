@@ -17,7 +17,7 @@
 
         <div class="row" th:if="${articleEntities.totalPages>1}">
             <div class="col-md-12">
-                <div th:replace="fragments/pagination_fragment::pagination(${articleEntities},${path})"></div>
+                <div th:replace="fragments/pagination_fragment::pagination(${articleEntities},${path},null)"></div>
             </div>
         </div>
     </div>

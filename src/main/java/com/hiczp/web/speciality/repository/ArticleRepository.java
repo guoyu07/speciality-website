@@ -18,4 +18,6 @@ public interface ArticleRepository extends PagingAndSortingRepository<ArticleEnt
     List<ArticleEntity> findTop5BySortOrderByCreateTimeDesc(Integer sort);
 
     Page<ArticleEntity> findBySortOrderByCreateTimeDesc(Integer sort, Pageable pageable);
+
+    Page<ArticleEntity> findByTitleContainsOrContentContainsOrderByCreateTimeDesc(String title, String content, Pageable pageable);
 }

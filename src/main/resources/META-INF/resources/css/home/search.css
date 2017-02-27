@@ -1,0 +1,22 @@
+.search i {
+    position: relative;
+    top: -35px;
+    left: 20px;
+    color: #777;
+    font-size: 16px;
+}
+
+.search .form-control {
+    border: 0;
+    background-color: #444;
+    color: #fff;
+    padding-left: 50px;
+}
+
+.search-list {
+    list-style: none;
+}
+
+.search-list > li {
+    margin-bottom: 30px;
+}

@@ -2,19 +2,19 @@
 <body>
 <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
 
-<ul class="pagination" th:fragment="pagination(page,path)">
+<ul class="pagination" th:fragment="pagination(page,path,params)">
     <li class="disabled" th:if="${page.first}">
         <span class="fa fa-angle-double-left"></span>
     </li>
     <li th:unless="${page.first}">
-        <a th:href="@{{path}(path=${path},page=0)}">
+        <a th:href="@{${path}(page=0)} + ${params!=null?'&amp;' + params:''}">
             <span class="fa fa-angle-double-left"></span>
         </a>
     </li>
 
     <tag th:remove="tag" th:each="var : ${#numbers.sequence(0,page.totalPages - 1)}">
         <li th:class="${page.number==var}?'active':''">
-            <a th:href="@{{path}(path=${path},page=${var})}" th:text="${var + 1}">页码</a>
+            <a th:href="@{${path}(page=${var})} + ${params!=null?'&amp;' + params:''}" th:text="${var + 1}">页码</a>
         </li>
     </tag>
 
@@ -22,7 +22,7 @@
         <span class="fa fa-angle-double-right"></span>
     </li>
     <li th:unless="${page.last}">
-        <a th:href="@{{path}(path=${path},page=${page.totalPages - 1})}">
+        <a th:href="@{${path}(page=${page.totalPages - 1})} + ${params!=null?'&amp;' + params:''}">
             <span class="fa fa-angle-double-right"></span>
         </a>
     </li>

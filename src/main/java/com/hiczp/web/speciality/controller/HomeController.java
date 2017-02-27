@@ -6,10 +6,11 @@ import com.hiczp.web.speciality.entity.SortEntity;
 import com.hiczp.web.speciality.repository.ArticleRepository;
 import com.hiczp.web.speciality.repository.ConfigRepository;
 import com.hiczp.web.speciality.repository.SortRepository;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import com.hiczp.web.speciality.service.ArticleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,11 +24,13 @@ import java.util.List;
 @Controller
 public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+    private ArticleService articleService;
     private SortRepository sortRepository;
     private ArticleRepository articleRepository;
     private ConfigRepository configRepository;
 
-    public HomeController(SortRepository sortRepository, ArticleRepository articleRepository, ConfigRepository configRepository) {
+    public HomeController(ArticleService articleService, SortRepository sortRepository, ArticleRepository articleRepository, ConfigRepository configRepository) {
+        this.articleService = articleService;
         this.sortRepository = sortRepository;
         this.articleRepository = articleRepository;
         this.configRepository = configRepository;
@@ -46,14 +49,8 @@ public class HomeController {
             Integer mainIndexSortId = Integer.valueOf(configRepository.findByKey("mainIndexSort").getValue());
             mainIndexSort = sortRepository.findOne(mainIndexSortId);
             mainIndexSortArticles = articleRepository.findTop3BySortOrderByCreateTimeDesc(mainIndexSort.getId());
-            //将文章内容转成摘要, 摘取前一百个字
-            mainIndexSortArticles.parallelStream().forEach(articleEntity -> {
-                Document document = Jsoup.parse(articleEntity.getContent());
-                String text = document.text();
-                if (text.length() > 100) {
-                    articleEntity.setContent(document.text().substring(0, 100));
-                }
-            });
+            //将文章内容转成摘要, 摘取前 150 个字
+            mainIndexSortArticles.parallelStream().forEach(articleEntity -> articleEntity.setContent(articleService.getSummary(articleEntity.getContent(), 150)));
         } catch (NumberFormatException e) {
             logger.error("未配置 mainIndexSort");
         } catch (NullPointerException e) {
@@ -81,5 +78,16 @@ public class HomeController {
                 .addObject("indexSorts", indexSorts)
                 .addObject("indexSortArticles", indexSortArticles)
                 .addObject("carouselImages", carouselImages);
+    }
+
+    @GetMapping("/search")
+    public ModelAndView search(ModelAndView modelAndView, String word, Pageable pageable) {
+        Page<ArticleEntity> results = articleRepository.findByTitleContainsOrContentContainsOrderByCreateTimeDesc(word, word, pageable);
+        results.getContent().parallelStream().forEach(articleEntity -> articleEntity.setContent(articleService.getSummary(articleEntity.getContent(), 200)));
+
+        modelAndView.setViewName("/home/search");
+        return modelAndView.addObject("word", word)
+                .addObject("results", results)
+                .addObject("path", "/search");
     }
 }
