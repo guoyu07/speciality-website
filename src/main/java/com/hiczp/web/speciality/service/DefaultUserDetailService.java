@@ -27,6 +27,6 @@ public class DefaultUserDetailService implements UserDetailsService {
         if (userEntity == null) {
             throw new UsernameNotFoundException(String.format("Username '%s' not found", username));
         }
-        return new User(username, userEntity.getPassword(), Arrays.asList(() -> "ROLE_BASIC"));
+        return new User(userEntity.getUsername(), userEntity.getPassword(), Arrays.asList(() -> "ROLE_BASIC"));
     }
 }
