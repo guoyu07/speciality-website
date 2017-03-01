@@ -5,8 +5,13 @@ import com.hiczp.web.speciality.repository.ConfigRepository;
 import com.hiczp.web.speciality.service.SortService;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -33,11 +38,19 @@ public class AspectConfiguration {
     private void normalController() {
     }
 
+    @Before(value = "normalController() && args(modelAndView,..)")
+    public void beforeNormalController(ModelAndView modelAndView) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Boolean isLogined = authentication instanceof UsernamePasswordAuthenticationToken || authentication instanceof RememberMeAuthenticationToken;
+        modelAndView.addObject("isLogined", isLogined);
+    }
+
     @AfterReturning(pointcut = "normalController()", returning = "result")
     public void afterNormalControllerReturning(Object result) {
         ModelAndView modelAndView = (ModelAndView) result;
         //如果是重定向视图则不添加信息
         if (modelAndView.getView() instanceof RedirectView) {
+            modelAndView.getModel().remove("isLogined");
             return;
         }
 

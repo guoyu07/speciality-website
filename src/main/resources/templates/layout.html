@@ -55,8 +55,12 @@
                         </div>
                     </form>
                 </li>
-                <li>
-                    <a href="">登录</a>
+                <tag th:remove="tag" th:if="${isLogined}">
+                    <li><a th:href="@{/admin}">管理后台</a></li>
+                    <li><a th:href="@{/account/logout}">注销</a></li>
+                </tag>
+                <li th:unless="${isLogined}">
+                    <a th:href="@{/account/login}">登录</a>
                 </li>
             </ul>
         </div>
