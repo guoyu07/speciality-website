@@ -3,7 +3,6 @@ package com.hiczp.web.speciality.service;
 import com.alibaba.fastjson.JSON;
 import com.hiczp.web.speciality.entity.ArticleEntity;
 import com.hiczp.web.speciality.entity.SortEntity;
-import com.hiczp.web.speciality.repository.ArticleRepository;
 import com.hiczp.web.speciality.repository.ConfigRepository;
 import com.hiczp.web.speciality.repository.SortRepository;
 import org.springframework.stereotype.Service;
@@ -19,12 +18,10 @@ import java.util.List;
 public class SortService {
     private SortRepository sortRepository;
     private ConfigRepository configRepository;
-    private ArticleRepository articleRepository;
 
-    public SortService(SortRepository sortRepository, ConfigRepository configRepository, ArticleRepository articleRepository) {
+    public SortService(SortRepository sortRepository, ConfigRepository configRepository) {
         this.sortRepository = sortRepository;
         this.configRepository = configRepository;
-        this.articleRepository = articleRepository;
     }
 
     public List<SortEntity> getRootSorts() {
