@@ -3,14 +3,14 @@ package com.hiczp.web.speciality.entity;
 import javax.persistence.*;
 
 /**
- * Created by czp on 17-2-28.
+ * Created by czp on 17-3-2.
  */
 @Entity
 @Table(name = "user", schema = "speciality_website", catalog = "")
 public class UserEntity {
     private int id;
-    private String username;
     private String password;
+    private String email;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -23,16 +23,6 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "username", nullable = false, length = 255)
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Basic
     @Column(name = "password", nullable = false, length = 255)
     public String getPassword() {
         return password;
@@ -40,6 +30,16 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Basic
+    @Column(name = "email", nullable = false, length = 255)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -50,8 +50,8 @@ public class UserEntity {
         UserEntity that = (UserEntity) o;
 
         if (id != that.id) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        if (email != null ? !email.equals(that.email) : that.email != null) return false;
 
         return true;
     }
@@ -59,8 +59,8 @@ public class UserEntity {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
     }
 }

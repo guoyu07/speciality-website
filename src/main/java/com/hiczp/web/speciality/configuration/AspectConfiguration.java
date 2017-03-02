@@ -12,6 +12,7 @@ import org.springframework.security.authentication.RememberMeAuthenticationToken
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -45,9 +46,8 @@ public class AspectConfiguration {
         modelAndView.addObject("isLogined", isLogined);
     }
 
-    @AfterReturning(pointcut = "normalController()", returning = "result")
-    public void afterNormalControllerReturning(Object result) {
-        ModelAndView modelAndView = (ModelAndView) result;
+    @AfterReturning(pointcut = "normalController()", returning = "modelAndView")
+    public void afterNormalControllerReturning(ModelAndView modelAndView) {
         //如果是重定向视图则不添加信息
         if (modelAndView.getView() instanceof RedirectView) {
             modelAndView.getModel().remove("isLogined");
@@ -68,5 +68,21 @@ public class AspectConfiguration {
         rootSorts.forEach(rootSort -> allChildSorts.add(sortService.getChildSorts(rootSort)));
         modelAndView.addObject("rootSorts", rootSorts)
                 .addObject("childSorts", allChildSorts);
+    }
+
+    //切入每个后台页面
+    @Pointcut("execution(org.springframework.web.servlet.ModelAndView com.hiczp.web.speciality.controller.admin.*.*(..))")
+    private void adminController() {
+    }
+
+    @AfterReturning(pointcut = "adminController()", returning = "modelAndView")
+    public void afterAdminControllerReturning(ModelAndView modelAndView) {
+        if (modelAndView.getView() instanceof RedirectView) {
+            return;
+        }
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        modelAndView.addObject("email", email)
+                .addObject("avatarPath", "https://www.gravatar.com/avatar/" + DigestUtils.md5DigestAsHex(email.trim().toLowerCase().getBytes()));
     }
 }

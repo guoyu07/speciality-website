@@ -25,8 +25,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.formLogin().loginPage("/account/login").defaultSuccessUrl("/admin")
                 .and().rememberMe()
-                .and().logout().logoutUrl("/account/logout").logoutSuccessUrl("/")
-                .and().exceptionHandling().accessDeniedPage("/account/access_denied");
+                .and().logout().logoutUrl("/account/logout").logoutSuccessUrl("/");
     }
 
     @Override
