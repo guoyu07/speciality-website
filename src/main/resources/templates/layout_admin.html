@@ -110,7 +110,15 @@
                 </li>
                 <li><a th:href="@{/admin/profile}"><i class="fa fa-user"></i><span>个人资料</span></a></li>
                 <li><a th:href="@{/admin/user}"><i class="fa fa-users"></i><span>用户管理</span></a></li>
-                <li><a th:href="@{/admin/tool}"><i class="fa fa-wrench"></i><span>工具</span></a></li>
+                <li><a th:href="@{/admin/config}"><i class="fa fa-cog"></i><span>系统设置</span></a></li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-wrench"></i><span>工具</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a th:href="@{/admin/tool/monitor}">性能监控</a></li>
+                    </ul>
+                </li>
             </ul>
             <!-- /.sidebar-menu -->
         </section>

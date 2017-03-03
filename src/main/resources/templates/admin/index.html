@@ -18,7 +18,33 @@
 </section>
 
 <section class="content" layout:fragment="content">
-
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">系统信息</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                title="Collapse">
+                            <i class="fa fa-minus"></i></button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip"
+                                title="Remove">
+                            <i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <p th:inline="text">Version [[${projectVersion}]], built in [[${mavenBuildTimestamp}]]</p>
+                    <p th:inline="text">Spring-boot [[${springBootVersion}]]</p>
+                    <p th:inline="text">[[${ServerInfo.getServerInfo()}]] [[${ServerInfo.getServerNumber()}]]
+                        [[${ServerInfo.getServerBuilt()}]]</p>
+                    <p th:inline="text">[[${System.getProperty("java.vm.name")}]]
+                        [[${System.getProperty("java.version")}]]</p>
+                    <p th:inline="text">[[${System.getProperty("os.name")}]] [[${System.getProperty("os.arch")}]]
+                        [[${System.getProperty("os.version")}]]</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 </body>
 </html>
