@@ -15,10 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin")
 public class AdminController {
     @GetMapping("")
-    public ModelAndView index(ModelAndView modelAndView, @Value("${project.version}") String projectVersion, @Value("${maven.build.timestamp}") String mavenBuildTimestamp) {
+    public ModelAndView index(ModelAndView modelAndView, @Value("${project.version}") String projectVersion) {
         modelAndView.setViewName("/admin/index");
         return modelAndView.addObject("projectVersion", projectVersion)
-                .addObject("mavenBuildTimestamp", mavenBuildTimestamp)
                 .addObject("springBootVersion", SpringBootVersion.getVersion())
                 .addObject("ServerInfo", ServerInfo.class)
                 .addObject("System", System.class);
