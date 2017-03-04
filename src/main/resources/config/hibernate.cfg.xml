@@ -10,6 +10,7 @@
         <mapping class="com.hiczp.web.speciality.entity.SortEntity"/>
         <mapping class="com.hiczp.web.speciality.entity.ConfigEntity"/>
         <mapping class="com.hiczp.web.speciality.entity.UserEntity"/>
+        <mapping class="com.hiczp.web.speciality.entity.LoginLogEntity"/>
         <!-- <property name="connection.username"/> -->
         <!-- <property name="connection.password"/> -->
 

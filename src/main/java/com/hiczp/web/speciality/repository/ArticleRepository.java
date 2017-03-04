@@ -11,6 +11,8 @@ import java.util.List;
  * Created by czp on 17-2-17.
  */
 public interface ArticleRepository extends PagingAndSortingRepository<ArticleEntity, Integer> {
+    List<ArticleEntity> findTop5ByOrderByCreateTimeDesc();
+
     ArticleEntity findFirstBySortOrderByCreateTimeDesc(Integer sort);
 
     List<ArticleEntity> findTop3BySortOrderByCreateTimeDesc(Integer sort);

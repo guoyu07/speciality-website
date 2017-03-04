@@ -95,11 +95,11 @@
             </div>
 
             <!-- Sidebar Menu -->
-            <ul class="sidebar-menu">
+            <ul class="sidebar-menu" id="sidebar">
                 <!-- Optionally, you can add icons to the links -->
-                <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i><span>概况</span></a></li>
-                <li><a th:href="@{/admin/sort}"><i class="fa fa-tags"></i><span>分类</span></a></li>
-                <li class="treeview">
+                <li data-item="overview"><a th:href="@{/admin}"><i class="fa fa-dashboard"></i><span>概况</span></a></li>
+                <li data-item="sort"><a th:href="@{/admin/sort}"><i class="fa fa-tags"></i><span>分类</span></a></li>
+                <li class="treeview" data-item="article">
                     <a href="#"><i class="fa fa-file-text"></i><span>文章</span>
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
@@ -108,15 +108,24 @@
                         <li><a th:href="@{/admin/newArticle}">写文章</a></li>
                     </ul>
                 </li>
-                <li><a th:href="@{/admin/profile}"><i class="fa fa-user"></i><span>个人资料</span></a></li>
-                <li><a th:href="@{/admin/user}"><i class="fa fa-users"></i><span>用户管理</span></a></li>
-                <li><a th:href="@{/admin/config}"><i class="fa fa-cog"></i><span>系统设置</span></a></li>
-                <li class="treeview">
+                <li data-item="profile"><a th:href="@{/admin/profile}"><i class="fa fa-user"></i><span>个人资料</span></a>
+                </li>
+                <li class="treeview" data-item="user">
+                    <a href="#"><i class="fa fa-users"></i><span>用户管理</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a th:href="@{/admin/user}">所有用户</a></li>
+                        <li><a th:href="@{/admin/login_log}">登录记录</a></li>
+                    </ul>
+                </li>
+                <li data-item="config"><a th:href="@{/admin/config}"><i class="fa fa-cog"></i><span>系统设置</span></a></li>
+                <li class="treeview" data-item="tool">
                     <a href="#"><i class="fa fa-wrench"></i><span>工具</span>
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a th:href="@{/admin/tool/monitor}">性能监控</a></li>
+                        <li><a th:href="@{/admin/tool/actuator}">性能监控</a></li>
                     </ul>
                 </li>
             </ul>
@@ -156,9 +165,14 @@
 </div>
 <!-- ./wrapper -->
 
+<script th:inline="javascript">
+    var activeSidebarItem = /*[[${activeSidebarItem}]]*/ null;
+</script>
+
 <script th:src="@{/webjars/jquery/3.1.1-1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/adminlte/2.3.11/dist/js/app.min.js}"></script>
+<script th:src="@{/js/admin.js}"></script>
 
 <tag th:remove="tag" layout:fragment="scripts"></tag>
 
