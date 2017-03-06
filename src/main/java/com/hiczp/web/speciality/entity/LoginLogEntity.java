@@ -13,6 +13,7 @@ public class LoginLogEntity {
     private int user;
     private String ip;
     private Timestamp time;
+    private UserEntity userByUser;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -76,5 +77,15 @@ public class LoginLogEntity {
         result = 31 * result + (ip != null ? ip.hashCode() : 0);
         result = 31 * result + (time != null ? time.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public UserEntity getUserByUser() {
+        return userByUser;
+    }
+
+    public void setUserByUser(UserEntity userByUser) {
+        this.userByUser = userByUser;
     }
 }

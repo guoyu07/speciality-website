@@ -1,6 +1,7 @@
 package com.hiczp.web.speciality.controller.admin;
 
 import com.hiczp.web.speciality.repository.ArticleRepository;
+import com.hiczp.web.speciality.repository.LoginLogRepository;
 import com.hiczp.web.speciality.repository.SortRepository;
 import com.hiczp.web.speciality.repository.UserRepository;
 import org.apache.catalina.util.ServerInfo;
@@ -20,11 +21,13 @@ public class AdminController {
     private SortRepository sortRepository;
     private UserRepository userRepository;
     private ArticleRepository articleRepository;
+    private LoginLogRepository loginLogRepository;
 
-    public AdminController(SortRepository sortRepository, UserRepository userRepository, ArticleRepository articleRepository) {
+    public AdminController(SortRepository sortRepository, UserRepository userRepository, ArticleRepository articleRepository, LoginLogRepository loginLogRepository) {
         this.sortRepository = sortRepository;
         this.userRepository = userRepository;
         this.articleRepository = articleRepository;
+        this.loginLogRepository = loginLogRepository;
     }
 
     @GetMapping("")
@@ -38,6 +41,7 @@ public class AdminController {
                 .addObject("recentlyArticles", articleRepository.findTop5ByOrderByCreateTimeDesc())
                 .addObject("sortCount", sortRepository.count())
                 .addObject("articleCount", articleRepository.count())
-                .addObject("userCount", userRepository.count());
+                .addObject("userCount", userRepository.count())
+                .addObject("recentlyLoginLogs", loginLogRepository.findTop5ByOrderByTimeDesc());
     }
 }
