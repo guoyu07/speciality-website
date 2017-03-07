@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="/webjars/ionicons/2.0.1/css/ionicons.min.css"/>
+<link rel="stylesheet" href="/webjars/adminlte/2.3.11/dist/css/AdminLTE.min.css"/>
+<link rel="stylesheet" href="/webjars/adminlte/2.3.11/dist/css/skins/skin-blue.min.css"/>
+
+<div class="box box-info" th:fragment="currently_login(recentlyLoginLogs)">
+    <div class="box-header with-border">
+        <h3 class="box-title">最近登录</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                    class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table no-margin">
+                <thead>
+                <tr>
+                    <th>邮箱</th>
+                    <th>IP</th>
+                    <th>位置
+                        <a class="tooltip-test" href="http://ip-api.com/docs/unban" target="_blank"
+                           data-toggle="tooltip" title="IP 归属信息由 IP-API 提供, 若您无法正确查询, 点此解封您的 IP 地址">
+                            <span class="fa fa-question-circle"></span>
+                        </a>
+                    </th>
+                    <th>时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="loginLog : ${recentlyLoginLogs}">
+                    <td th:text="${loginLog.userByUser.email}">Call of Duty IV</td>
+                    <td th:text="${loginLog.ip}">admin@gmail.com</td>
+                    <td th:attr="data-ip=${loginLog.ip}"><span class="fa fa-spin fa-spinner"></span></td>
+                    <td th:text="${#dates.format(loginLog.time,'yyyy-MM-dd HH:mm:ss')}">2017-02-31</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="box-footer clearfix">
+        <a class="btn btn-sm btn-default btn-flat pull-right" th:href="@{/admin/login_log}">查看全部</a>
+    </div>
+</div>
+
+</body>
+</html>
