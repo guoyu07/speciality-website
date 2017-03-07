@@ -7,6 +7,7 @@ import com.hiczp.web.speciality.repository.UserRepository;
 import org.apache.catalina.util.ServerInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootVersion;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,5 +44,13 @@ public class AdminController {
                 .addObject("articleCount", articleRepository.count())
                 .addObject("userCount", userRepository.count())
                 .addObject("recentlyLoginLogs", loginLogRepository.findTop5ByOrderByTimeDesc());
+    }
+
+    @GetMapping("/login_log")
+    public ModelAndView loginLog(ModelAndView modelAndView, Pageable pageable) {
+        modelAndView.setViewName("/admin/login_log");
+        return modelAndView.addObject("activeSidebarItem", "user")
+                .addObject("recentlyLoginLogs", loginLogRepository.findByOrderByTimeDesc(pageable))
+                .addObject("path", "/admin/login_log");
     }
 }
