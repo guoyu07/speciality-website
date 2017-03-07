@@ -49,7 +49,7 @@ public class SortController {
         Page<ArticleEntity> articleEntities = null;
         ArticleEntity articleEntity = null;
 
-        if (sortEntity.getType().equals(SortType.NORMAL.toString())) {   //普通分类
+        if (sortEntity.getType() == SortType.NORMAL) {   //普通分类
             articleEntities = articleRepository.findBySortAndPublishTrueOrderByCreateTimeDesc(id, pageable);
             //为根分类且无文章则跳转到下属的第一个子分类
             if (sortEntity.getParent() == 0 && articleEntities.getTotalElements() == 0) {
@@ -60,7 +60,7 @@ public class SortController {
                     return modelAndView;
                 }
             }
-        } else if (sortEntity.getType().equals(SortType.ARTICLE.toString())) {   //文章分类
+        } else if (sortEntity.getType() == SortType.ARTICLE) {   //文章分类
             articleEntity = articleRepository.findFirstBySortAndPublishTrueOrderByCreateTimeDesc(id);
             //对应的文章存在时
             if (articleEntity != null) {

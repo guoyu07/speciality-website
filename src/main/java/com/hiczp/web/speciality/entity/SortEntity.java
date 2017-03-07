@@ -1,5 +1,7 @@
 package com.hiczp.web.speciality.entity;
 
+import com.hiczp.web.speciality.enumeration.SortType;
+
 import javax.persistence.*;
 
 /**
@@ -12,7 +14,7 @@ public class SortEntity {
     private String name;
     private Integer parent;
     private Integer taxis;
-    private String type;
+    private SortType type;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -55,12 +57,13 @@ public class SortEntity {
     }
 
     @Basic
-    @Column(name = "type", nullable = true, length = 32)
-    public String getType() {
+    @Column(name = "type", length = 32)
+    @Enumerated(EnumType.STRING)
+    public SortType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(SortType type) {
         this.type = type;
     }
 

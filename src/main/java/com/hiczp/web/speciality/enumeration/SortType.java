@@ -5,10 +5,5 @@ package com.hiczp.web.speciality.enumeration;
  */
 public enum SortType {
     NORMAL,
-    ARTICLE;
-
-    @Override
-    public String toString() {
-        return super.toString().toLowerCase();
-    }
+    ARTICLE
 }
