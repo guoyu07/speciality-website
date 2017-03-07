@@ -48,7 +48,7 @@ public class HomeController {
         try {
             Integer mainIndexSortId = Integer.valueOf(configRepository.findByKey("mainIndexSort").getValue());
             mainIndexSort = sortRepository.findOne(mainIndexSortId);
-            mainIndexSortArticles = articleRepository.findTop3BySortOrderByCreateTimeDesc(mainIndexSort.getId());
+            mainIndexSortArticles = articleRepository.findTop3BySortAndPublishTrueOrderByCreateTimeDesc(mainIndexSort.getId());
             //将文章内容转成摘要, 摘取前 150 个字
             mainIndexSortArticles.parallelStream().forEach(articleEntity -> articleEntity.setContent(articleService.getSummary(articleEntity.getContent(), 150)));
         } catch (NumberFormatException e) {
@@ -67,7 +67,7 @@ public class HomeController {
                 logger.error(String.format("当前设置的 indexSorts 中的分类 %d 指向不存在对象", id));
             }
         });
-        indexSorts.forEach(sortEntity -> indexSortArticles.add(articleRepository.findTop5BySortOrderByCreateTimeDesc(sortEntity.getId())));
+        indexSorts.forEach(sortEntity -> indexSortArticles.add(articleRepository.findTop5BySortAndPublishTrueOrderByCreateTimeDesc(sortEntity.getId())));
 
         //carousel
         carouselImages = JSON.parseArray(configRepository.findByKey("carouselImages").getValue(), String.class);
@@ -82,7 +82,7 @@ public class HomeController {
 
     @GetMapping("/search")
     public ModelAndView search(ModelAndView modelAndView, String word, Pageable pageable) {
-        Page<ArticleEntity> results = articleRepository.findByTitleContainsOrContentContainsOrderByCreateTimeDesc(word, word, pageable);
+        Page<ArticleEntity> results = articleRepository.findByTitleContainsOrContentContainsAndPublishTrueOrderByCreateTimeDesc(word, word, pageable);
         results.getContent().parallelStream().forEach(articleEntity -> articleEntity.setContent(articleService.getSummary(articleEntity.getContent(), 200)));
 
         modelAndView.setViewName("/home/search");

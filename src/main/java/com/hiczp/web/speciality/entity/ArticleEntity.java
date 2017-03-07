@@ -16,6 +16,7 @@ public class ArticleEntity {
     private Integer views;
     private Timestamp createTime;
     private String image;
+    private Boolean publish;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -115,5 +116,15 @@ public class ArticleEntity {
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "publish", nullable = false)
+    public Boolean getPublish() {
+        return publish;
+    }
+
+    public void setPublish(Boolean publish) {
+        this.publish = publish;
     }
 }

@@ -38,7 +38,7 @@ public class AdminController {
                 .addObject("springBootVersion", SpringBootVersion.getVersion())
                 .addObject("ServerInfo", ServerInfo.class)
                 .addObject("System", System.class)
-                .addObject("recentlyArticles", articleRepository.findTop5ByOrderByCreateTimeDesc())
+                .addObject("recentlyArticles", articleRepository.findTop5ByAndPublishTrueOrderByCreateTimeDesc())
                 .addObject("sortCount", sortRepository.count())
                 .addObject("articleCount", articleRepository.count())
                 .addObject("userCount", userRepository.count())

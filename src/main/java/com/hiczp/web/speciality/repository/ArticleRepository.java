@@ -11,15 +11,15 @@ import java.util.List;
  * Created by czp on 17-2-17.
  */
 public interface ArticleRepository extends PagingAndSortingRepository<ArticleEntity, Integer> {
-    List<ArticleEntity> findTop5ByOrderByCreateTimeDesc();
+    List<ArticleEntity> findTop5ByAndPublishTrueOrderByCreateTimeDesc();
 
-    ArticleEntity findFirstBySortOrderByCreateTimeDesc(Integer sort);
+    ArticleEntity findFirstBySortAndPublishTrueOrderByCreateTimeDesc(Integer sort);
 
-    List<ArticleEntity> findTop3BySortOrderByCreateTimeDesc(Integer sort);
+    List<ArticleEntity> findTop3BySortAndPublishTrueOrderByCreateTimeDesc(Integer sort);
 
-    List<ArticleEntity> findTop5BySortOrderByCreateTimeDesc(Integer sort);
+    List<ArticleEntity> findTop5BySortAndPublishTrueOrderByCreateTimeDesc(Integer sort);
 
-    Page<ArticleEntity> findBySortOrderByCreateTimeDesc(Integer sort, Pageable pageable);
+    Page<ArticleEntity> findBySortAndPublishTrueOrderByCreateTimeDesc(Integer sort, Pageable pageable);
 
-    Page<ArticleEntity> findByTitleContainsOrContentContainsOrderByCreateTimeDesc(String title, String content, Pageable pageable);
+    Page<ArticleEntity> findByTitleContainsOrContentContainsAndPublishTrueOrderByCreateTimeDesc(String title, String content, Pageable pageable);
 }
