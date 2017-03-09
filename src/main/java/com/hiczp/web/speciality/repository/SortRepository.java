@@ -9,5 +9,7 @@ import java.util.List;
  * Created by czp on 17-2-14.
  */
 public interface SortRepository extends CrudRepository<SortEntity, Integer> {
+    SortEntity findByName(String name);
+
     List<SortEntity> findByParentOrderByTaxis(Integer parent);
 }
