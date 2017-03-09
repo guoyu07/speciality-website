@@ -1,6 +1,7 @@
 package com.hiczp.web.speciality.controller.admin;
 
 import com.hiczp.web.speciality.entity.SortEntity;
+import com.hiczp.web.speciality.exception.SortNotFoundException;
 import com.hiczp.web.speciality.model.SortFormModel;
 import com.hiczp.web.speciality.repository.ArticleRepository;
 import com.hiczp.web.speciality.repository.LoginLogRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -55,12 +57,60 @@ public class AdminController {
 
     @GetMapping("/sort")
     public ModelAndView sort(ModelAndView modelAndView, Pageable pageable) {
-        modelAndView.setViewName("/admin/sort");
+        modelAndView.setViewName("/admin/sort_list");
         return modelAndView;
+    }
+
+    @GetMapping("/sort/{id}")
+    public ModelAndView sort(ModelAndView modelAndView, @PathVariable Integer id) {
+        SortFormModel sortFormModel = new SortFormModel();
+        SortEntity sortEntity = sortRepository.findOne(id);
+        if (sortEntity != null) {
+            sortFormModel.setId(sortEntity.getId());
+            sortFormModel.setName(sortEntity.getName());
+            sortFormModel.setParent(sortEntity.getParent());
+            sortFormModel.setSortType(sortEntity.getType());
+            sortFormModel.setTaxis(sortEntity.getTaxis());
+        } else {
+            throw new SortNotFoundException();
+        }
+        //TODO
+        sortFormModel.setParentSorts(sortRepository.findAll());
+        modelAndView.setViewName("/admin/sort");
+        return modelAndView.addObject("activeSidebarItem", "sort")
+                .addObject("action", "/admin/sort/" + id)
+                .addObject("sortFormModel", sortFormModel);
+    }
+
+    @PostMapping("/sort/{id}")
+    public ModelAndView sort(ModelAndView modelAndView, @PathVariable Integer id, @Valid SortFormModel sortFormModel, BindingResult bindingResult) {
+        String message = "";
+        if (!bindingResult.hasErrors()) {
+            SortEntity sortEntity = sortRepository.findOne(id);
+            if (sortEntity != null) {
+                sortEntity.setName(sortFormModel.getName());
+                sortEntity.setParent(sortFormModel.getParent());
+                sortEntity.setType(sortFormModel.getSortType());
+                sortEntity.setTaxis(sortFormModel.getTaxis());
+                sortRepository.save(sortEntity);
+            } else {
+                throw new SortNotFoundException();
+            }
+        } else {
+            message = "表单错误";
+        }
+        //TODO
+        sortFormModel.setParentSorts(sortRepository.findAll());
+        modelAndView.setViewName("/admin/sort");
+        return modelAndView.addObject("activeSidebarItem", "sort")
+                .addObject("action", "/admin/sort/" + id)
+                .addObject("sortFormModel", sortFormModel)
+                .addObject("message", message);
     }
 
     @GetMapping("/new_sort")
     public ModelAndView newSort(ModelAndView modelAndView, SortFormModel sortFormModel) {
+        //TODO
         sortFormModel.setParentSorts(sortRepository.findAll());
         modelAndView.setViewName("/admin/new_sort");
         return modelAndView.addObject("activeSidebarItem", "sort")
@@ -86,6 +136,7 @@ public class AdminController {
         } else {
             message = "表单错误";
         }
+        //TODO
         sortFormModel.setParentSorts(sortRepository.findAll());
         modelAndView.setViewName("/admin/new_sort");
         return modelAndView.addObject("activeSidebarItem", "sort")
