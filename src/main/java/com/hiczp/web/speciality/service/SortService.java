@@ -23,6 +23,27 @@ public class SortService {
         this.configRepository = configRepository;
     }
 
+    private Integer getTreeRoot(Map<Integer, List<SortEntity>> integerListMap) {
+        List<SortEntity> tempList = new ArrayList<>();
+        integerListMap.forEach((sortId, hashMapNode) -> tempList.addAll(hashMapNode));
+        //其父分类是否存在
+        boolean flag;
+        for (SortEntity sortEntity : tempList) {
+            flag = false;
+            for (SortEntity sortEntity1 : tempList) {
+                if (sortEntity1.getId() == sortEntity.getParent()) {
+                    flag = true;
+                    break;
+                }
+            }
+            //当前遍历对象的父分类不存在
+            if (!flag) {
+                return sortEntity.getParent();
+            }
+        }
+        return null;
+    }
+
     public List<SortEntity> getRootSorts() {
         return sortRepository.findByParentOrderByTaxis(0);
     }
@@ -86,12 +107,7 @@ public class SortService {
 
     public List<SortEntity> getTreeList() {
         Map<Integer, List<SortEntity>> integerListMap = getTreeMap();
-        Optional<Integer> minKey = integerListMap.keySet().stream().min(Comparator.comparing(num -> num));
-        Integer minSortId = minKey.isPresent() ? minKey.get() : null;
-
         LinkedList<SortEntity> sortEntities = new LinkedList<>();
-        sortEntities.addAll(integerListMap.get(minSortId));
-        integerListMap.remove(minSortId);
         while (integerListMap.size() > 0) {
             int i;
             for (i = 0; i < sortEntities.size(); i++) {
@@ -104,24 +120,13 @@ public class SortService {
             }
             //存在游离分类
             if (i >= sortEntities.size()) {
-                List<SortEntity> tempList = new ArrayList<>();
-                integerListMap.forEach((sortId, hashMapNode) -> tempList.addAll(hashMapNode));
-                //其父分类是否存在
-                boolean flag;
-                for (SortEntity sortEntity : tempList) {
-                    flag = false;
-                    for (SortEntity sortEntity1 : tempList) {
-                        if (sortEntity1.getId() == sortEntity.getParent()) {
-                            flag = true;
-                            break;
-                        }
-                    }
-                    //当前遍历对象的父分类不存在
-                    if (!flag) {
-                        sortEntities.addAll(integerListMap.get(sortEntity.getParent()));
-                        integerListMap.remove(sortEntity.getParent());
-                        break;
-                    }
+                Integer treeRoot = getTreeRoot(integerListMap);
+                if (treeRoot != null) {   //剩余项中有至少一个根
+                    sortEntities.addAll(integerListMap.get(treeRoot));
+                    integerListMap.remove(treeRoot);
+                } else {    //剩余项相互依赖
+                    integerListMap.forEach((sortId, hashMapNode) -> sortEntities.addAll(hashMapNode));
+                    return sortEntities;
                 }
             }
         }
