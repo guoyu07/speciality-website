@@ -126,7 +126,7 @@ public class SortService {
                     integerListMap.remove(treeRoot);
                 } else {    //剩余项相互依赖
                     integerListMap.forEach((sortId, hashMapNode) -> sortEntities.addAll(hashMapNode));
-                    return sortEntities;
+                    break;
                 }
             }
         }
