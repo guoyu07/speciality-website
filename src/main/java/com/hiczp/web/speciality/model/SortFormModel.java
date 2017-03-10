@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SortFormModel {
-    private int id;
-
     @NotEmpty(message = "分类名不能为空")
     private String name;
 
@@ -24,14 +22,6 @@ public class SortFormModel {
     private Iterable<SortEntity> parentSorts;
 
     private SortType[] sortTypes = SortType.values();
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
