@@ -5,7 +5,6 @@ import com.hiczp.web.speciality.exception.SortNotFoundException;
 import com.hiczp.web.speciality.model.SortFormModel;
 import com.hiczp.web.speciality.repository.SortRepository;
 import com.hiczp.web.speciality.service.SortService;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 
@@ -32,8 +32,15 @@ public class AdminSortController {
     }
 
     @GetMapping("/sort")
-    public ModelAndView sort(ModelAndView modelAndView, Pageable pageable) {
+    public ModelAndView sort(ModelAndView modelAndView) {
         modelAndView.setViewName("/admin/sort_list");
+        return modelAndView.addObject("activeSidebarItem", "sort")
+                .addObject("sortEntities", sortService.getTreeListText());
+    }
+
+    @PostMapping("/sort")
+    public ModelAndView sort(ModelAndView modelAndView, Integer[] ids, Integer[] taxis) {
+        modelAndView.setView(new RedirectView("/admin/sort", true, true, false));
         return modelAndView;
     }
 

@@ -1,0 +1,66 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout_admin">
+<head>
+
+</head>
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="/webjars/ionicons/2.0.1/css/ionicons.min.css"/>
+<link rel="stylesheet" href="/webjars/adminlte/2.3.11/dist/css/AdminLTE.min.css"/>
+<link rel="stylesheet" href="/webjars/adminlte/2.3.11/dist/css/skins/skin-blue.min.css"/>
+<section class="content-header" layout:fragment="content-header">
+    <h1>所有分类</h1>
+    <ol class="breadcrumb">
+        <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> 控制面板</a></li>
+        <li><i class="fa fa-tags"></i> 分类</li>
+    </ol>
+</section>
+
+<section class="content" layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post">
+                <div class="box">
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <th>名称</th>
+                                <th>类型</th>
+                                <th>排序</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr th:each="sortEntity : ${sortEntities}">
+                                <td th:text="${sortEntity.name}">分类名</td>
+                                <td th:text="${sortEntity.type}">NORMAL</td>
+                                <td>
+                                    <input name="ids" th:value="${sortEntity.id}" hidden="hidden"/>
+                                    <input type="text" style="max-width: 40px" name="taxis"
+                                           th:value="${sortEntity.taxis}"/>
+                                    <strong class="text-danger hidden"> 需要整数</strong>
+                                </td>
+                                <td>
+                                    <a th:href="@{/admin/sort/{id}(id=${sortEntity.id})}">编辑</a> |
+                                    <a class="text-danger">删除</a> |
+                                    <a target="_blank" th:href="@{/sort/{id}(id=${sortEntity.id})}">查看</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer">
+                        <button class="btn btn-primary" type="submit" id="save-taxis">保存排序</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<div layout:fragment="scripts">
+    <script th:src="@{/js/admin/sort_list.js}"></script>
+</div>
+
+</body>
+</html>
