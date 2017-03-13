@@ -40,6 +40,8 @@ public class AdminSortController {
 
     @PostMapping("/sort")
     public ModelAndView sort(ModelAndView modelAndView, Integer[] ids, Integer[] taxis) {
+        sortService.saveTaxis(ids, taxis);
+
         modelAndView.setView(new RedirectView("/admin/sort", true, true, false));
         return modelAndView;
     }
@@ -55,6 +57,7 @@ public class AdminSortController {
         } else {
             throw new SortNotFoundException();
         }
+
         sortFormModel.setParentSorts(sortService.getTreeListText());
         modelAndView.setViewName("/admin/sort");
         return modelAndView.addObject("activeSidebarItem", "sort")
@@ -79,6 +82,7 @@ public class AdminSortController {
         } else {
             message = "表单错误";
         }
+
         sortFormModel.setParentSorts(sortService.getTreeListText());
         modelAndView.setViewName("/admin/sort");
         return modelAndView.addObject("activeSidebarItem", "sort")
@@ -114,6 +118,7 @@ public class AdminSortController {
         } else {
             message = "表单错误";
         }
+
         sortFormModel.setParentSorts(sortService.getTreeListText());
         modelAndView.setViewName("/admin/new_sort");
         return modelAndView.addObject("activeSidebarItem", "sort")

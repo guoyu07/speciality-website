@@ -6,6 +6,7 @@ import com.hiczp.web.speciality.entity.SortEntity;
 import com.hiczp.web.speciality.repository.ConfigRepository;
 import com.hiczp.web.speciality.repository.SortRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -164,5 +165,22 @@ public class SortService {
 
     public List<SortEntity> getTreeListText() {
         return getTreeListText("---");
+    }
+
+    @Transactional
+    public void saveTaxis(Integer[] ids, Integer[] taxis) {
+        if (ids.length != taxis.length) {
+            throw new InternalError("The length of ids[] and taxis[] does not match");
+        }
+        List<SortEntity> sortEntities = sortRepository.findByIdIn(ids);
+        sortEntities.parallelStream().forEach(sortEntity -> {
+            for (int i = 0; i < ids.length; i++) {
+                if (sortEntity.getId() == ids[i]) {
+                    sortEntity.setTaxis(taxis[i]);
+                    sortRepository.save(sortEntity);
+                    break;
+                }
+            }
+        });
     }
 }
