@@ -176,8 +176,10 @@ public class SortService {
         sortEntities.parallelStream().forEach(sortEntity -> {
             for (int i = 0; i < ids.length; i++) {
                 if (sortEntity.getId() == ids[i]) {
-                    sortEntity.setTaxis(taxis[i]);
-                    sortRepository.save(sortEntity);
+                    if (sortEntity.getTaxis() != taxis[i]) {
+                        sortEntity.setTaxis(taxis[i]);
+                        sortRepository.save(sortEntity);
+                    }
                     break;
                 }
             }
