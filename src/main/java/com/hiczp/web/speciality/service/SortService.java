@@ -6,7 +6,6 @@ import com.hiczp.web.speciality.entity.SortEntity;
 import com.hiczp.web.speciality.repository.ConfigRepository;
 import com.hiczp.web.speciality.repository.SortRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -135,7 +134,7 @@ public class SortService {
         return sortEntities;
     }
 
-    public List<SortEntity> getTreeListText(String separator) {
+    public List<SortEntity> getTreeListText(String prefix) {
         List<SortEntity> sortEntities = getTreeList();
         int[] level = new int[sortEntities.size()];
         for (int i = 1; i < sortEntities.size(); i++) {
@@ -154,7 +153,7 @@ public class SortService {
             }
             StringBuilder stringBuilder = new StringBuilder();
             for (int k = level[i]; k > 0; k--) {
-                stringBuilder.append(separator);
+                stringBuilder.append(prefix);
             }
             stringBuilder.append(" ").append(current.getName());
             current.setName(stringBuilder.toString());
@@ -167,22 +166,23 @@ public class SortService {
         return getTreeListText("---");
     }
 
-    @Transactional
     public void saveTaxis(Integer[] ids, Integer[] taxis) {
         if (ids.length != taxis.length) {
             throw new InternalError("The length of ids[] and taxis[] does not match");
         }
         List<SortEntity> sortEntities = sortRepository.findByIdIn(ids);
+        List<SortEntity> changed = new LinkedList<>();
         sortEntities.parallelStream().forEach(sortEntity -> {
             for (int i = 0; i < ids.length; i++) {
                 if (sortEntity.getId() == ids[i]) {
                     if (sortEntity.getTaxis() != taxis[i]) {
                         sortEntity.setTaxis(taxis[i]);
-                        sortRepository.save(sortEntity);
+                        changed.add(sortEntity);
+                        break;
                     }
-                    break;
                 }
             }
         });
+        sortRepository.save(changed);
     }
 }
