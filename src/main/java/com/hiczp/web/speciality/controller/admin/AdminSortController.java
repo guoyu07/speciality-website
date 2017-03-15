@@ -1,6 +1,7 @@
 package com.hiczp.web.speciality.controller.admin;
 
 import com.hiczp.web.speciality.entity.SortEntity;
+import com.hiczp.web.speciality.exception.BadRequestException;
 import com.hiczp.web.speciality.exception.SortNotFoundException;
 import com.hiczp.web.speciality.model.SortFormModel;
 import com.hiczp.web.speciality.repository.SortRepository;
@@ -41,7 +42,7 @@ public class AdminSortController {
     @PostMapping("/sort")
     public ModelAndView sort(ModelAndView modelAndView, Integer[] ids, Integer[] taxis) {
         if (ids.length != taxis.length) {
-            throw new IllegalArgumentException("The length of ids[] and taxis[] does not match");
+            throw new BadRequestException("The length of ids[] and taxis[] does not match");
         }
         sortService.saveTaxis(ids, taxis);
 
