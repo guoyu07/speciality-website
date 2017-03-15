@@ -40,6 +40,9 @@ public class AdminSortController {
 
     @PostMapping("/sort")
     public ModelAndView sort(ModelAndView modelAndView, Integer[] ids, Integer[] taxis) {
+        if (ids.length != taxis.length) {
+            throw new IllegalArgumentException("The length of ids[] and taxis[] does not match");
+        }
         sortService.saveTaxis(ids, taxis);
 
         modelAndView.setView(new RedirectView("/admin/sort", true, true, false));

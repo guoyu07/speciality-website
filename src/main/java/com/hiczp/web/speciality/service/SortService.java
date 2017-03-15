@@ -52,7 +52,12 @@ public class SortService {
         List<SortEntity> sortEntities = new ArrayList<>();
         List<Integer> ids = JSON.parseArray(configRepository.findByKey("navbarSorts").getValue(), Integer.class);
         if (ids != null) {
-            ids.forEach(id -> sortEntities.add(sortRepository.findOne(id)));
+            ids.forEach(id -> {
+                SortEntity sortEntity = sortRepository.findOne(id);
+                if (sortEntity != null) {
+                    sortEntities.add(sortEntity);
+                }
+            });
         }
         return sortEntities;
     }
@@ -167,9 +172,6 @@ public class SortService {
     }
 
     public void saveTaxis(Integer[] ids, Integer[] taxis) {
-        if (ids.length != taxis.length) {
-            throw new InternalError("The length of ids[] and taxis[] does not match");
-        }
         List<SortEntity> sortEntities = sortRepository.findByIdIn(ids);
         List<SortEntity> changed = new LinkedList<>();
         sortEntities.parallelStream().forEach(sortEntity -> {
