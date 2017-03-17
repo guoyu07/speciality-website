@@ -42,7 +42,8 @@
                                 </td>
                                 <td>
                                     <a th:href="@{/admin/sort/{id}(id=${sortEntity.id})}">编辑</a> |
-                                    <a class="text-danger">删除</a> |
+                                    <a class="text-danger ajax-delete" href="#" onclick="return false;"
+                                       th:attr="data-id=${sortEntity.id}">删除</a> |
                                     <a target="_blank" th:href="@{/sort/{id}(id=${sortEntity.id})}">查看</a>
                                 </td>
                             </tr>

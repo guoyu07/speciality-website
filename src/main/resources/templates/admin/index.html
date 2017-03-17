@@ -100,7 +100,8 @@
                         <li th:each="article : ${recentlyArticles}">
                             <span class="text-muted"
                                   th:text="${#dates.format(article.createTime,'HH:mm yyyy-MM-dd')}"></span>
-                            <a th:href="@{/article/{id}(id=${article.id})}" th:text="${article.title}"></a>
+                            <a target="_blank" th:href="@{/article/{id}(id=${article.id})}"
+                               th:text="${article.title}"></a>
                         </li>
                     </ul>
                 </div>
