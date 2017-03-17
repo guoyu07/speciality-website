@@ -16,4 +16,6 @@ public interface SortRepository extends CrudRepository<SortEntity, Integer> {
     List<SortEntity> findByParentOrderByTaxis(Integer parent);
 
     List<SortEntity> findByIdIn(Integer[] ids);
+
+    List<SortEntity> findByParentInOrderByTaxis(Integer[] parents);
 }

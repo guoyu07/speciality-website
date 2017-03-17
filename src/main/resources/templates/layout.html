@@ -30,18 +30,18 @@
                 <li><a th:href="@{/}">首页</a></li>
                 <!--无子分类的根分类不显示下拉菜单-->
                 <tag th:remove="tag" th:each="rootSort : ${rootSorts}">
-                    <li class="dropdown" th:if="${childSorts[rootSortStat.index].size()}">
+                    <li class="dropdown" th:if="${childSorts[rootSort.id].size()}">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">
                             <span th:remove="tag" th:text="${rootSort.name}">根分类名</span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li th:each="childSort : ${childSorts[rootSortStat.index]}">
+                            <li th:each="childSort : ${childSorts[rootSort.id]}">
                                 <a th:href="@{/sort/{id}(id=${childSort.id})}" th:text="${childSort.name}">子分类名</a>
                             </li>
                         </ul>
                     </li>
-                    <li th:unless="${childSorts[rootSortStat.index].size()}">
+                    <li th:unless="${childSorts[rootSort.id].size()}">
                         <a th:href="@{/sort/{id}(id=${rootSort.id})}" th:text="${rootSort.name}"></a>
                     </li>
                 </tag>

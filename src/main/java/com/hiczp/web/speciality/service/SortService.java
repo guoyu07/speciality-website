@@ -70,6 +70,15 @@ public class SortService {
         return getChildSorts(sortEntity.getId());
     }
 
+    public Map<Integer, List<SortEntity>> getAllChildSortsMap(Integer ids[]) {
+        return sortRepository.findByParentInOrderByTaxis(ids).parallelStream().collect(Collectors.groupingBy(SortEntity::getParent));
+    }
+
+    public Map<Integer, List<SortEntity>> getAllChildSortsMap(List<SortEntity> sortEntities) {
+        Integer[] ids = sortEntities.parallelStream().map(SortEntity::getId).toArray(Integer[]::new);
+        return getAllChildSortsMap(ids);
+    }
+
     public SortEntity getParentSort(Integer id) {
         return getParentSort(sortRepository.findOne(id));
     }

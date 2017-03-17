@@ -16,7 +16,6 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,10 +63,8 @@ public class AspectConfiguration {
 
         //附加导航栏分类信息到返回值
         List<SortEntity> rootSorts = sortService.getNavbarRootSorts();
-        List<List<SortEntity>> allChildSorts = new ArrayList<>(rootSorts.size());
-        rootSorts.forEach(rootSort -> allChildSorts.add(sortService.getChildSorts(rootSort)));
         modelAndView.addObject("rootSorts", rootSorts)
-                .addObject("childSorts", allChildSorts);
+                .addObject("childSorts", sortService.getAllChildSortsMap(rootSorts));
     }
 
     //切入每个后台页面
