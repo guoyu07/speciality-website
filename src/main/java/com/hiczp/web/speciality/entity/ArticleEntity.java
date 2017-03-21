@@ -17,6 +17,8 @@ public class ArticleEntity {
     private Timestamp createTime;
     private String image;
     private Boolean publish;
+    private int author;
+    private UserEntity userByAuthor;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -126,5 +128,25 @@ public class ArticleEntity {
 
     public void setPublish(Boolean publish) {
         this.publish = publish;
+    }
+
+    @Basic
+    @Column(name = "author")
+    public int getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(int author) {
+        this.author = author;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "author", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public UserEntity getUserByAuthor() {
+        return userByAuthor;
+    }
+
+    public void setUserByAuthor(UserEntity userByAuthor) {
+        this.userByAuthor = userByAuthor;
     }
 }

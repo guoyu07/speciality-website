@@ -8,6 +8,10 @@
         <h3 class="text-center" th:text="${articleEntity.title}">文章标题</h3>
         <ul class="list-inline list-unstyled text-center text-muted">
             <li>
+                <span class="fa fa-user"></span>
+                <span th:text="${articleEntity.userByAuthor.nick}"></span>
+            </li>
+            <li>
                 <span class="fa fa-clock-o"></span>
                 <span th:text="${#dates.format(articleEntity.createTime,'yyyy-MM-dd')}"></span>
             </li>
