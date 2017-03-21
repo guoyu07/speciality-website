@@ -82,7 +82,7 @@ public class HomeController {
 
     @GetMapping("/search")
     public ModelAndView search(ModelAndView modelAndView, String word, Pageable pageable) {
-        Page<ArticleEntity> results = articleRepository.findByTitleContainsOrContentContainsAndPublishTrueOrderByCreateTimeDesc(word, word, pageable);
+        Page<ArticleEntity> results = articleRepository.findByTitleContainsOrContentContainsOrTagContainsAndPublishTrueOrderByCreateTimeDesc(word, word, word, pageable);
         results.getContent().parallelStream().forEach(articleEntity -> articleEntity.setContent(articleService.getSummary(articleEntity.getContent(), 200)));
 
         modelAndView.setViewName("/home/search");

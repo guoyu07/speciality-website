@@ -43,6 +43,7 @@
                     <h3>
                         <a th:href="@{/article/{id}(id=${articleEntity.id})}" th:text="${articleEntity.title}">文章标题</a>
                     </h3>
+                    <p th:inline="text">标签: [[${articleEntity.tag}]]</p>
                     <p class="text-muted" th:text="${articleEntity.content}">文章摘要</p>
                 </li>
             </ul>

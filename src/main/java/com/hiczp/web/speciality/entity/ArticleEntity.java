@@ -19,6 +19,7 @@ public class ArticleEntity {
     private Boolean publish;
     private int author;
     private UserEntity userByAuthor;
+    private String tag;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -148,5 +149,15 @@ public class ArticleEntity {
 
     public void setUserByAuthor(UserEntity userByAuthor) {
         this.userByAuthor = userByAuthor;
+    }
+
+    @Basic
+    @Column(name = "tag")
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

@@ -23,5 +23,5 @@ public interface ArticleRepository extends PagingAndSortingRepository<ArticleEnt
 
     Page<ArticleEntity> findBySortAndPublishTrueOrderByCreateTimeDesc(Integer sort, Pageable pageable);
 
-    Page<ArticleEntity> findByTitleContainsOrContentContainsAndPublishTrueOrderByCreateTimeDesc(String title, String content, Pageable pageable);
+    Page<ArticleEntity> findByTitleContainsOrContentContainsOrTagContainsAndPublishTrueOrderByCreateTimeDesc(String title, String content, String tag, Pageable pageable);
 }
