@@ -1,0 +1,110 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout_admin">
+<head>
+    <link rel="stylesheet" href="/webjars/summernote/0.8.2/dist/summernote.css"
+          th:href="@{/webjars/summernote/0.8.2/dist/summernote.css}"/>
+</head>
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="/webjars/ionicons/2.0.1/css/ionicons.min.css"/>
+<link rel="stylesheet" href="/webjars/adminlte/2.3.11/dist/css/AdminLTE.min.css"/>
+<link rel="stylesheet" href="/webjars/adminlte/2.3.11/dist/css/skins/skin-blue.min.css"/>
+<section class="content-header" layout:fragment="content-header">
+    <h1>撰写新文章</h1>
+    <ol class="breadcrumb">
+        <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> 控制面板</a></li>
+        <li><a th:href="@{/admin/article}"><i class="fa fa-file"></i> 文章</a></li>
+        <li class="active">写文章</li>
+    </ol>
+</section>
+
+<section class="content" layout:fragment="content">
+    <form th:object="${articleFormModel}">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input class="form-control" placeholder="在此输入标题" th:field="*{title}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div id="summernote" style="display: none" th:text="*{content}">Hello Summernote</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">标签</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"
+                                            data-toggle="tooltip" title="" data-original-title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"
+                                            data-toggle="tooltip" title="" data-original-title="Remove">
+                                        <i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="标签..."/>
+                                </div>
+                                <p class="text-muted">多个标签请用英文逗号（,）分开</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">分类</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"
+                                            data-toggle="tooltip" title="" data-original-title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"
+                                            data-toggle="tooltip" title="" data-original-title="Remove">
+                                        <i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <select class="form-control" th:field="*{sort}">
+                                        <option value="0">
+                                            --未分类--
+                                        </option>
+                                        <option th:each="sortEntity : *{sortEntities}" th:text="${sortEntity.name}"
+                                                th:value="${sortEntity.id}">
+                                            option 1
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<div layout:fragment="scripts">
+    <script src="/webjars/summernote/0.8.2/dist/summernote.min.js"
+            th:src="@{/webjars/summernote/0.8.2/dist/summernote.min.js}"></script>
+    <script src="/js/admin/summernote.js" th:src="@{/js/admin/summernote.js}"></script>
+</div>
+
+</body>
+</html>
