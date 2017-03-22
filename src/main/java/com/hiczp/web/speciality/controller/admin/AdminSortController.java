@@ -54,6 +54,7 @@ public class AdminSortController {
     public ModelAndView sort(ModelAndView modelAndView, SortFormModel sortFormModel, @PathVariable Integer id) {
         SortEntity sortEntity = sortRepository.findOne(id);
         if (sortEntity != null) {
+            sortFormModel.setId(sortEntity.getId());
             sortFormModel.setName(sortEntity.getName());
             sortFormModel.setParent(sortEntity.getParent());
             sortFormModel.setSortType(sortEntity.getType());

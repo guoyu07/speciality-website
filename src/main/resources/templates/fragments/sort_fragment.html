@@ -25,7 +25,8 @@
                         <select class="form-control" th:field="*{parent}">
                             <option value='0'>--无--</option>
                             <option th:each="parentSort : *{parentSorts}" th:text="${parentSort.name}"
-                                    th:value="${parentSort.id}">option 1
+                                    th:value="${parentSort.id}" th:disabled="${parentSort.id==sortFormModel.id}">option
+                                1
                             </option>
                         </select>
                     </div>
