@@ -1,0 +1,15 @@
+.misc-publishing-actions > div {
+    padding: 6px 10px 8px;
+}
+
+.misc-publishing-actions > div > .hide-if-js > * {
+    margin-bottom: 10px;
+}
+
+.hide-if-js {
+    margin-top: 3px;
+}
+
+.cancel-button {
+    padding-left: 5px;
+}

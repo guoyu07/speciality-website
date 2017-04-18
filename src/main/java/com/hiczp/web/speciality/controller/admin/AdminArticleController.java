@@ -65,6 +65,7 @@ public class AdminArticleController {
     @GetMapping("/new_article")
     public ModelAndView newArticle(ModelAndView modelAndView, ArticleFormModel articleFormModel) {
         articleFormModel.setSortEntities(sortService.getTreeListText());
+        articleFormModel.setCreateTime(new Timestamp(System.currentTimeMillis()));
         modelAndView.setViewName("/admin/new_article");
         return modelAndView.addObject("activeSidebarItem", "article")
                 .addObject("action", "/new_article")
@@ -80,7 +81,14 @@ public class AdminArticleController {
             articleEntity.setContent(articleFormModel.getContent());
             articleEntity.setSort(articleFormModel.getSort());
             articleEntity.setViews(0);
-            articleEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            //如果未指定创建时间, 则使用当前时间
+            Timestamp timestamp;
+            if (articleFormModel.getCreateTime() == null) {
+                timestamp = new Timestamp(System.currentTimeMillis());
+            } else {
+                timestamp = articleFormModel.getCreateTime();
+            }
+            articleEntity.setCreateTime(timestamp);
             articleEntity.setPublish(articleFormModel.getPublish());
             articleRepository.save(articleEntity);
         }

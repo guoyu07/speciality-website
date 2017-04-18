@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="/webjars/summernote/0.8.2/dist/summernote.css"
           th:href="@{/webjars/summernote/0.8.2/dist/summernote.css}"/>
+    <link rel="stylesheet" href="/css/admin/new_article.css" th:href="@{/css/admin/new_article.css}"/>
 </head>
 <body>
 <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
@@ -21,6 +22,7 @@
 
 <section class="content" layout:fragment="content">
     <form th:object="${articleFormModel}">
+        <input th:field="*{id}" hidden="hidden"/>
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
@@ -38,9 +40,81 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">图片标题</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"
+                                            data-toggle="tooltip" title="" data-original-title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="图片URL" th:text="*{image}"/>
+                                </div>
+                                <p class="text-muted">当你的文章在首页展示时, 这张图片会被显示</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">发布</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"
+                                            data-toggle="tooltip" title="" data-original-title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body misc-publishing-actions">
+                                <div>
+                                    <i class="fa fa-map-pin"></i> 状态:
+                                    <span id="article-status-display">草稿</span>
+                                    <a class="hide-if-no-js" href="#" style="display: inline"> 编辑</a>
+                                    <div class="form-inline hide-if-js" style="display: none">
+                                        <p th:text="*{publish}"></p>
+                                        <select class="form-control" th:field="*{publish}">
+                                            <option value="false">草稿</option>
+                                            <option value="true">发布</option>
+                                        </select>
+                                        <a class="form-control save-button btn btn-default" id="save-article-status"
+                                           href="#">确定</a>
+                                        <a class="cancel-button" id="cancel-article-status" href="#">取消</a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <i class="fa fa-calendar"></i> 发布于:
+                                    <span id="createTime-display"
+                                          th:text="${#dates.format(articleFormModel.createTime,'YYYY-MM-dd HH:mm:ss')}">1970-01-01 00:00:00</span>
+                                    <a class="hide-if-no-js" href="#" style="display: inline"> 编辑</a>
+                                    <div class="form-inline hide-if-js" style="display: none">
+                                        <input class="form-control" type="datetime-local" value="2000-01-01T00:00:00"
+                                               th:field="*{createTime}" style="max-width: 230px;display: block"/>
+                                        <a class="form-control save-createTime save-button btn btn-default"
+                                           id="save-createTime" href="#">确定</a>
+                                        <a class="cancel-button" id="cancel-createTime" href="#">取消</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <div class="form-inline">
+                                    <a class="btn btn-primary form-control" id="save-article" href="#">保存</a>
+                                    <a class="pull-right btn btn-default form-control" href="#">预览</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-info">
@@ -50,16 +124,13 @@
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse"
                                             data-toggle="tooltip" title="" data-original-title="Collapse">
                                         <i class="fa fa-minus"></i></button>
-                                    <button type="button" class="btn btn-box-tool" data-widget="remove"
-                                            data-toggle="tooltip" title="" data-original-title="Remove">
-                                        <i class="fa fa-times"></i></button>
                                 </div>
                             </div>
                             <div class="box-body">
                                 <div class="form-group">
                                     <input class="form-control" placeholder="标签..."/>
                                 </div>
-                                <p class="text-muted">多个标签请用英文逗号（,）分开</p>
+                                <p class="text-muted">多个标签请用英文逗号(,)分开</p>
                             </div>
                         </div>
                     </div>
@@ -74,9 +145,6 @@
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse"
                                             data-toggle="tooltip" title="" data-original-title="Collapse">
                                         <i class="fa fa-minus"></i></button>
-                                    <button type="button" class="btn btn-box-tool" data-widget="remove"
-                                            data-toggle="tooltip" title="" data-original-title="Remove">
-                                        <i class="fa fa-times"></i></button>
                                 </div>
                             </div>
                             <div class="box-body">
@@ -104,6 +172,7 @@
     <script src="/webjars/summernote/0.8.2/dist/summernote.min.js"
             th:src="@{/webjars/summernote/0.8.2/dist/summernote.min.js}"></script>
     <script src="/js/admin/summernote.js" th:src="@{/js/admin/summernote.js}"></script>
+    <script src="/js/admin/new_article.js" th:src="@{/js/admin/new_article.js}"></script>
 </div>
 
 </body>

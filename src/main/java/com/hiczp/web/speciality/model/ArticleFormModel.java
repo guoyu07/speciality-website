@@ -2,8 +2,10 @@ package com.hiczp.web.speciality.model;
 
 import com.hiczp.web.speciality.entity.SortEntity;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -11,6 +13,8 @@ import java.util.List;
  */
 @Component
 public class ArticleFormModel {
+    private int id;
+
     @NotEmpty(message = "文章标题不能为空")
     private String title;
 
@@ -20,9 +24,20 @@ public class ArticleFormModel {
 
     private Integer sort;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Timestamp createTime;
+
     private Boolean publish;
 
     private List<SortEntity> sortEntities;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -54,6 +69,14 @@ public class ArticleFormModel {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public Boolean getPublish() {
