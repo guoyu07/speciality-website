@@ -1,12 +1,10 @@
 package com.hiczp.web.speciality.model;
 
-import com.hiczp.web.speciality.entity.SortEntity;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * Created by czp on 17-3-18.
@@ -18,18 +16,20 @@ public class ArticleFormModel {
     @NotEmpty(message = "文章标题不能为空")
     private String title;
 
+    private String tag;
+
     private String image;
 
+    @NotEmpty(message = "文章内容不能为空")
     private String content;
 
+    @NotNull(message = "分类不能为空")
     private Integer sort;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Timestamp createTime;
 
+    @NotNull(message = "必须指定文章发布状态")
     private Boolean publish;
-
-    private List<SortEntity> sortEntities;
 
     public int getId() {
         return id;
@@ -45,6 +45,14 @@ public class ArticleFormModel {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getImage() {
@@ -85,13 +93,5 @@ public class ArticleFormModel {
 
     public void setPublish(Boolean publish) {
         this.publish = publish;
-    }
-
-    public List<SortEntity> getSortEntities() {
-        return sortEntities;
-    }
-
-    public void setSortEntities(List<SortEntity> sortEntities) {
-        this.sortEntities = sortEntities;
     }
 }

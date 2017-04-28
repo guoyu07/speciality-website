@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+
+</head>
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+<div class="container" layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div th:replace="fragments/breadcrumb_fragment::breadcrumb(${breadcrumbsChain},${articleEntity})"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div th:replace="fragments/sidebar_fragment::sidebar(${sidebarSorts},${sidebarActive})"></div>
+        </div>
+
+        <div class="col-md-9">
+            <div th:replace="fragments/article_fragment::article(${articleEntity})"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

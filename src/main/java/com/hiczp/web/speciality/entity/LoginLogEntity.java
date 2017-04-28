@@ -17,6 +17,7 @@ public class LoginLogEntity {
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -79,7 +80,7 @@ public class LoginLogEntity {
         return result;
     }
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public UserEntity getUserByUser() {
         return userByUser;

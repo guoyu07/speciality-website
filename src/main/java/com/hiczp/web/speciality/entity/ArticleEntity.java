@@ -23,6 +23,7 @@ public class ArticleEntity {
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -122,7 +123,7 @@ public class ArticleEntity {
     }
 
     @Basic
-    @Column(name = "publish", nullable = false)
+    @Column(name = "publish")
     public Boolean getPublish() {
         return publish;
     }
@@ -141,7 +142,7 @@ public class ArticleEntity {
         this.author = author;
     }
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "author", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public UserEntity getUserByAuthor() {
         return userByAuthor;

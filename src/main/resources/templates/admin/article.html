@@ -12,23 +12,31 @@
 <link rel="stylesheet" href="/webjars/adminlte/2.3.11/dist/css/AdminLTE.min.css"/>
 <link rel="stylesheet" href="/webjars/adminlte/2.3.11/dist/css/skins/skin-blue.min.css"/>
 <section class="content-header" layout:fragment="content-header">
-    <h1>撰写新文章</h1>
+    <h1>
+        编辑文章
+        <small class="text-muted" id="save-time-notification"></small>
+    </h1>
     <ol class="breadcrumb">
         <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> 控制面板</a></li>
         <li><a th:href="@{/admin/article}"><i class="fa fa-file"></i> 文章</a></li>
-        <li class="active">写文章</li>
+        <li class="active">编辑文章</li>
     </ol>
 </section>
 
 <section class="content" layout:fragment="content">
-    <form th:object="${articleFormModel}">
+    <div class="row">
+        <div class="col-md-12" id="alert-danger">
+
+        </div>
+    </div>
+    <form id="article-form" th:object="${articleFormModel}">
         <input th:field="*{id}" hidden="hidden"/>
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <input class="form-control" placeholder="在此输入标题" th:field="*{title}"/>
+                            <input class="form-control" placeholder="在此输入标题" th:field="*{title}" required="required"/>
                         </div>
                     </div>
                 </div>
@@ -37,6 +45,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div id="summernote" style="display: none" th:text="*{content}">Hello Summernote</div>
+                            <input th:field="*{content}" hidden="hidden"/>
                         </div>
                     </div>
                 </div>
@@ -54,7 +63,7 @@
                             </div>
                             <div class="box-body">
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="图片URL" th:text="*{image}"/>
+                                    <input class="form-control" placeholder="图片URL" th:field="*{image}"/>
                                 </div>
                                 <p class="text-muted">当你的文章在首页展示时, 这张图片会被显示</p>
                             </div>
@@ -91,14 +100,17 @@
                                         <a class="cancel-button" id="cancel-article-status" href="#">取消</a>
                                     </div>
                                 </div>
-                                <div>
+                                <div id="createTime-div">
                                     <i class="fa fa-calendar"></i> 发布于:
                                     <span id="createTime-display"
                                           th:text="${#dates.format(articleFormModel.createTime,'YYYY-MM-dd HH:mm:ss')}">1970-01-01 00:00:00</span>
                                     <a class="hide-if-no-js" href="#" style="display: inline"> 编辑</a>
                                     <div class="form-inline hide-if-js" style="display: none">
-                                        <input class="form-control" type="datetime-local" value="2000-01-01T00:00:00"
-                                               th:field="*{createTime}" style="max-width: 230px;display: block"/>
+                                        <input class="form-control" type="datetime-local" value="1970-01-01T00:00:00"
+                                               id="createTime" name="createTime"
+                                               style="max-width: 100%;display: block"/>
+                                        <span class="help-block" id="createTime-help-block"
+                                              style="display: none">创建时间非法</span>
                                         <a class="form-control save-createTime save-button btn btn-default"
                                            id="save-createTime" href="#">确定</a>
                                         <a class="cancel-button" id="cancel-createTime" href="#">取消</a>
@@ -107,8 +119,16 @@
                             </div>
                             <div class="box-footer">
                                 <div class="form-inline">
-                                    <a class="btn btn-primary form-control" id="save-article" href="#">保存</a>
-                                    <a class="pull-right btn btn-default form-control" href="#">预览</a>
+                                    <button class="btn btn-primary form-control" type="submit" id="save-article-button">
+                                        保存
+                                    </button>
+                                    <i class="fa fa-spinner fa-spin" id="save-spinner" style="display: none"></i>
+                                    <span class="save-status" id="save-status-success" style="display: none">保存成功 <i
+                                            class="fa fa-check text-green"></i></span>
+                                    <span class="save-status" id="save-status-error" style="display: none">保存失败 <i
+                                            class="fa fa-times text-red"></i></span>
+                                    <a class="pull-right btn btn-default form-control" id="preview-article"
+                                       href="#">预览</a>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +148,7 @@
                             </div>
                             <div class="box-body">
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="标签..."/>
+                                    <input class="form-control" placeholder="标签..." th:field="*{tag}"/>
                                 </div>
                                 <p class="text-muted">多个标签请用英文逗号(,)分开</p>
                             </div>
@@ -153,7 +173,7 @@
                                         <option value="0">
                                             --未分类--
                                         </option>
-                                        <option th:each="sortEntity : *{sortEntities}" th:text="${sortEntity.name}"
+                                        <option th:each="sortEntity : ${sortEntities}" th:text="${sortEntity.name}"
                                                 th:value="${sortEntity.id}">
                                             option 1
                                         </option>
@@ -168,11 +188,22 @@
     </form>
 </section>
 
+<script layout:fragment="presetVariables" th:inline="javascript">
+    const newArticlePostURL = /*[[@{/api/admin/article}]]*/ "/api/admin/article";
+    const editArticlePatchURL = /*[[@{/api/admin/article/}]]*/ "/api/admin/article/";
+</script>
+
 <div layout:fragment="scripts">
+    <script src="/webjars/jquery-validation/1.16.0/jquery.validate.min.js"
+            th:src="@{/webjars/jquery-validation/1.16.0/jquery.validate.min.js}"></script>
     <script src="/webjars/summernote/0.8.2/dist/summernote.min.js"
             th:src="@{/webjars/summernote/0.8.2/dist/summernote.min.js}"></script>
     <script src="/js/admin/summernote.js" th:src="@{/js/admin/summernote.js}"></script>
-    <script src="/js/admin/new_article.js" th:src="@{/js/admin/new_article.js}"></script>
+    <script src="/webjars/react/15.3.2/react.min.js" th:src="@{/webjars/react/15.3.2/react.min.js}"></script>
+    <script src="/webjars/react/15.3.2/react-dom.min.js" th:src="@{/webjars/react/15.3.2/react-dom.min.js}"></script>
+    <script src="/webjars/babel-standalone/6.24.0/babel.min.js"
+            th:src="@{/webjars/babel-standalone/6.24.0/babel.min.js}"></script>
+    <script type="text/babel" src="/js/admin/article.jsx" th:src="@{/js/admin/article.jsx}"></script>
 </div>
 
 </body>
