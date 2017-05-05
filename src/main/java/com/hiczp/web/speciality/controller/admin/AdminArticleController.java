@@ -1,8 +1,6 @@
 package com.hiczp.web.speciality.controller.admin;
 
-import com.hiczp.web.speciality.configuration.AspectConfiguration;
 import com.hiczp.web.speciality.entity.ArticleEntity;
-import com.hiczp.web.speciality.entity.SortEntity;
 import com.hiczp.web.speciality.exception.ArticleNotFoundException;
 import com.hiczp.web.speciality.model.ArticleFormModel;
 import com.hiczp.web.speciality.repository.ArticleRepository;
@@ -74,18 +72,5 @@ public class AdminArticleController {
         return modelAndView.addObject("activeSidebarItem", "article")
                 .addObject("articleFormModel", articleFormModel)
                 .addObject("sortEntities", sortService.getTreeListText());
-    }
-
-    @GetMapping("/preview_article")
-    public ModelAndView previewArticle(AspectConfiguration aspectConfiguration, ModelAndView modelAndView, ArticleFormModel articleFormModel) {
-        Integer sort = articleFormModel.getSort();
-        SortEntity sortEntity = sort != null ? sortRepository.findOne(sort) : null;
-        modelAndView.setViewName("/admin/preview_article");
-        modelAndView.addObject("articleFormModel", articleFormModel)
-                .addObject("sidebarSorts", sortEntity != null ? sortService.getSidebarSorts(sortEntity) : sortService.getRootSorts())
-                .addObject("sidebarActive", sortEntity)
-                .addObject("breadcrumbsChain", sortEntity != null ? sortService.getParentsChain(sortEntity) : null);
-        aspectConfiguration.afterNormalControllerReturning(modelAndView);
-        return modelAndView;
     }
 }
