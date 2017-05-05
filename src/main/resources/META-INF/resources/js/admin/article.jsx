@@ -11,6 +11,7 @@ jQuery(document).ready(function () {
     let alertDanger = jQuery("#alert-danger");
     let id = jQuery("#id").val();
     let saveArticleTimer;
+    let summerNote = jQuery("#summernote");
 
     class AlertDangerComponent extends React.Component {
         render() {
@@ -141,6 +142,37 @@ jQuery(document).ready(function () {
         saveArticleTimer = setInterval(saveArticle, 60 * 1000);
     }
 
+    function initSummernote() {
+        summerNote.summernote({
+            height: 250,
+            minHeight: null,
+            maxHeight: null,
+            focus: true,
+            callbacks: {
+                onImageUpload: (files) => {
+                    let formData = new FormData();
+                    Array.from(files).forEach(file => {
+                        if (file.type.match("image.*")) {
+                            formData.append("multipartFiles", file);
+                        }
+                    });
+                    jQuery.post({
+                        url: articleImagesUploadURL,
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                    }).done((data) => {
+                        data.forEach((name) => {
+                            summerNote.summernote("insertImage", articleImagesLocation + name);
+                        });
+                    });
+                }
+            }
+        });
+    }
+
+    initSummernote();
     updateArticleStatusDisplay();
     updateCreateTime();
 

@@ -191,6 +191,8 @@
 <script layout:fragment="presetVariables" th:inline="javascript">
     const newArticlePostURL = /*[[@{/api/admin/article}]]*/ "/api/admin/article";
     const editArticlePatchURL = /*[[@{/api/admin/article/}]]*/ "/api/admin/article/";
+    const articleImagesUploadURL = /*[[@{/api/admin/upload/article}]]*/ "/api/admin/upload/article";
+    const articleImagesLocation = /*[[@{/images/article/}]]*/ "/images/article/";
 </script>
 
 <div layout:fragment="scripts">
@@ -198,7 +200,6 @@
             th:src="@{/webjars/jquery-validation/1.16.0/jquery.validate.min.js}"></script>
     <script src="/webjars/summernote/0.8.2/dist/summernote.min.js"
             th:src="@{/webjars/summernote/0.8.2/dist/summernote.min.js}"></script>
-    <script src="/js/admin/summernote.js" th:src="@{/js/admin/summernote.js}"></script>
     <script src="/webjars/react/15.3.2/react.min.js" th:src="@{/webjars/react/15.3.2/react.min.js}"></script>
     <script src="/webjars/react/15.3.2/react-dom.min.js" th:src="@{/webjars/react/15.3.2/react-dom.min.js}"></script>
     <script src="/webjars/babel-standalone/6.24.0/babel.min.js"
