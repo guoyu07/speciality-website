@@ -1,19 +1,20 @@
 jQuery(document).ready(function () {
-    var saveTaxis = jQuery("#save-taxis");
-    var strongs = [];
-    var regExp = new RegExp("^[0-9]+$");
+    let saveTaxis = jQuery("#save-taxis");
+    let strongs = [];
+    let regExp = new RegExp("^[0-9]+$");
+
     //有 taxis input 为非整数时不允许提交表单
     jQuery("input[name='taxis']").each(function () {
-        var input = jQuery(this);
-        var strong = input.siblings("strong");
+        let input = jQuery(this);
+        let strong = input.siblings("strong");
         strongs.push(strong);
         input.keyup(function () {
-            if (input.val() != "" && !regExp.test(input.val())) {
+            if (input.val() !== "" && !regExp.test(input.val())) {
                 strong.removeClass("hidden");
                 saveTaxis.prop("disabled", true);
             } else {
                 strong.addClass("hidden");
-                var flag = false;
+                let flag = false;
                 jQuery.each(strongs, function (index, currentStrong) {
                     if (!currentStrong.hasClass("hidden")) {
                         flag = true;
@@ -26,24 +27,38 @@ jQuery(document).ready(function () {
 
     //点击 删除 按钮时发送 ajax 至后台
     jQuery(".ajax-delete").each(function () {
-        var button = jQuery(this);
-        var td = button.parent("td").parent("tr");
+        let button = jQuery(this);
+        let td = button.parent("td").parent("tr");
         button.click(function () {
-            jQuery.ajax({
-                url: "/api/admin/sort/" + button.attr("data-id"),
-                type: "delete",
-                success: function () {
-                    td.height(td.height());
-                    td.empty();
-                    td.animate({height: "0"}, "normal", "swing", function () {
-                        td.remove();
-                    });
-                },
-                error: function (data) {
-                    if (data.status == 401) {
-                        window.location.href = loginPage;
+            BootstrapDialog.show({
+                title: "警告",
+                message: "你真的想删除分类 '" + button.attr("data-name").replace(/-/g, "").replace(" ", "") + "' 吗?",
+                buttons: [{
+                    label: "确定",
+                    action: function (dialog) {
+                        jQuery.ajax({
+                            url: "/api/admin/sort/" + button.attr("data-id"),
+                            type: "DELETE"
+                        }).done(function () {
+                            td.height(td.height());
+                            td.empty();
+                            td.animate({height: "0"}, "normal", "swing", function () {
+                                td.remove();
+                            });
+                        }).fail(function (data) {
+                            if (data.status === 401) {
+                                location.reload();
+                            }
+                        }).always(function () {
+                            dialog.close();
+                        });
                     }
-                }
+                }, {
+                    label: "取消",
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
             });
         });
     });

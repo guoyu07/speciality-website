@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/webjars/ionicons/2.0.1/css/ionicons.min.css"/>
 <link rel="stylesheet" href="/webjars/adminlte/2.3.11/dist/css/AdminLTE.min.css"/>
 <link rel="stylesheet" href="/webjars/adminlte/2.3.11/dist/css/skins/skin-blue.min.css"/>
+
 <section class="content-header" layout:fragment="content-header">
     <h1>所有分类</h1>
     <ol class="breadcrumb">
@@ -43,7 +44,7 @@
                                 <td>
                                     <a th:href="@{/admin/sort/{id}(id=${sortEntity.id})}">编辑</a> |
                                     <a class="text-danger ajax-delete" href="#" onclick="return false;"
-                                       th:attr="data-id=${sortEntity.id}">删除</a> |
+                                       th:attr="data-id=${sortEntity.id},data-name=${sortEntity.name}">删除</a> |
                                     <a target="_blank" th:href="@{/sort/{id}(id=${sortEntity.id})}">查看</a>
                                 </td>
                             </tr>
