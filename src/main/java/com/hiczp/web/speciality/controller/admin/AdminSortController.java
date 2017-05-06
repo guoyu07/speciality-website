@@ -63,11 +63,10 @@ public class AdminSortController {
             throw new SortNotFoundException();
         }
 
-        sortFormModel.setParentSorts(sortService.getTreeListText());
         modelAndView.setViewName("/admin/sort");
         return modelAndView.addObject("activeSidebarItem", "sort")
-                .addObject("action", "/admin/sort/" + id)
-                .addObject("sortFormModel", sortFormModel);
+                .addObject("sortFormModel", sortFormModel)
+                .addObject("parentSorts", sortService.getTreeListText());
     }
 
     @PostMapping("/sort/{id}")
@@ -88,21 +87,19 @@ public class AdminSortController {
             message = "表单错误";
         }
 
-        sortFormModel.setParentSorts(sortService.getTreeListText());
         modelAndView.setViewName("/admin/sort");
         return modelAndView.addObject("activeSidebarItem", "sort")
-                .addObject("action", "/admin/sort/" + id)
                 .addObject("sortFormModel", sortFormModel)
+                .addObject("parentSorts", sortService.getTreeListText())
                 .addObject("message", message);
     }
 
     @GetMapping("/new_sort")
     public ModelAndView newSort(ModelAndView modelAndView, SortFormModel sortFormModel) {
-        sortFormModel.setParentSorts(sortService.getTreeListText());
-        modelAndView.setViewName("/admin/new_sort");
+        modelAndView.setViewName("/admin/sort");
         return modelAndView.addObject("activeSidebarItem", "sort")
-                .addObject("action", "/admin/new_sort")
-                .addObject("sortFormModel", sortFormModel);
+                .addObject("sortFormModel", sortFormModel)
+                .addObject("parentSorts", sortService.getTreeListText());
     }
 
     @PostMapping("/new_sort")
@@ -124,11 +121,10 @@ public class AdminSortController {
             message = "表单错误";
         }
 
-        sortFormModel.setParentSorts(sortService.getTreeListText());
-        modelAndView.setViewName("/admin/new_sort");
+        modelAndView.setViewName("/admin/sort");
         return modelAndView.addObject("activeSidebarItem", "sort")
-                .addObject("action", "/admin/new_sort")
                 .addObject("sortFormModel", sortFormModel)
+                .addObject("parentSorts", sortService.getTreeListText())
                 .addObject("message", message);
     }
 }

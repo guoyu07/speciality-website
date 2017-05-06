@@ -1,11 +1,8 @@
 package com.hiczp.web.speciality.model;
 
-import com.hiczp.web.speciality.entity.SortEntity;
 import com.hiczp.web.speciality.enumeration.SortType;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * Created by czp on 17-3-9.
@@ -22,8 +19,6 @@ public class SortFormModel {
     private SortType sortType;
 
     private Integer taxis;
-
-    private List<SortEntity> parentSorts;
 
     private SortType[] sortTypes = SortType.values();
 
@@ -65,14 +60,6 @@ public class SortFormModel {
 
     public void setTaxis(Integer taxis) {
         this.taxis = taxis;
-    }
-
-    public List<SortEntity> getParentSorts() {
-        return parentSorts;
-    }
-
-    public void setParentSorts(List<SortEntity> parentSorts) {
-        this.parentSorts = parentSorts;
     }
 
     public SortType[] getSortTypes() {
