@@ -35,8 +35,7 @@ public class AdminSortController {
     @GetMapping("/sort")
     public ModelAndView sort(ModelAndView modelAndView) {
         modelAndView.setViewName("/admin/sort_list");
-        return modelAndView.addObject("activeSidebarItem", "sort")
-                .addObject("sortEntities", sortService.getTreeListText());
+        return modelAndView.addObject("sortEntities", sortService.getTreeListText());
     }
 
     @PostMapping("/sort")
@@ -64,8 +63,7 @@ public class AdminSortController {
         }
 
         modelAndView.setViewName("/admin/sort");
-        return modelAndView.addObject("activeSidebarItem", "sort")
-                .addObject("sortFormModel", sortFormModel)
+        return modelAndView.addObject("sortFormModel", sortFormModel)
                 .addObject("parentSorts", sortService.getTreeListText());
     }
 
@@ -88,8 +86,7 @@ public class AdminSortController {
         }
 
         modelAndView.setViewName("/admin/sort");
-        return modelAndView.addObject("activeSidebarItem", "sort")
-                .addObject("sortFormModel", sortFormModel)
+        return modelAndView.addObject("sortFormModel", sortFormModel)
                 .addObject("parentSorts", sortService.getTreeListText())
                 .addObject("message", message);
     }
@@ -97,8 +94,7 @@ public class AdminSortController {
     @GetMapping("/new_sort")
     public ModelAndView newSort(ModelAndView modelAndView, SortFormModel sortFormModel) {
         modelAndView.setViewName("/admin/sort");
-        return modelAndView.addObject("activeSidebarItem", "sort")
-                .addObject("sortFormModel", sortFormModel)
+        return modelAndView.addObject("sortFormModel", sortFormModel)
                 .addObject("parentSorts", sortService.getTreeListText());
     }
 
@@ -122,8 +118,7 @@ public class AdminSortController {
         }
 
         modelAndView.setViewName("/admin/sort");
-        return modelAndView.addObject("activeSidebarItem", "sort")
-                .addObject("sortFormModel", sortFormModel)
+        return modelAndView.addObject("sortFormModel", sortFormModel)
                 .addObject("parentSorts", sortService.getTreeListText())
                 .addObject("message", message);
     }

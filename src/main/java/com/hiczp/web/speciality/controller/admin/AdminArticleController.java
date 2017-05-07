@@ -37,13 +37,13 @@ public class AdminArticleController {
     @GetMapping("/article")
     public ModelAndView article(ModelAndView modelAndView, Pageable pageable) {
         modelAndView.setViewName("/admin/article_list");
-        return modelAndView.addObject("activeSidebarItem", "article");
+        return modelAndView;
     }
 
     @GetMapping("/article/{id}")
     public ModelAndView article(ModelAndView modelAndView, @PathVariable Integer id) {
         modelAndView.setViewName("/admin/article");
-        return modelAndView.addObject("activeSidebarItem", "article");
+        return modelAndView;
     }
 
     @PostMapping("/article/{id}")
@@ -62,15 +62,14 @@ public class AdminArticleController {
             }
         }
         modelAndView.setViewName("/admin/article");
-        return modelAndView.addObject("activeSidebarItem", "article");
+        return modelAndView;
     }
 
     @GetMapping("/new_article")
     public ModelAndView newArticle(ModelAndView modelAndView, ArticleFormModel articleFormModel) {
         articleFormModel.setCreateTime(new Timestamp(System.currentTimeMillis()));
         modelAndView.setViewName("/admin/article");
-        return modelAndView.addObject("activeSidebarItem", "article")
-                .addObject("articleFormModel", articleFormModel)
+        return modelAndView.addObject("articleFormModel", articleFormModel)
                 .addObject("sortEntities", sortService.getTreeListText());
     }
 }

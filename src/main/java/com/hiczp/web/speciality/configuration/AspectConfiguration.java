@@ -3,6 +3,7 @@ package com.hiczp.web.speciality.configuration;
 import com.hiczp.web.speciality.entity.SortEntity;
 import com.hiczp.web.speciality.repository.ConfigRepository;
 import com.hiczp.web.speciality.service.SortService;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by czp on 17-2-14.
@@ -67,19 +70,25 @@ public class AspectConfiguration {
                 .addObject("childSorts", sortService.getAllChildSortsMap(rootSorts));
     }
 
-    //切入每个后台页面
-    @Pointcut("execution(org.springframework.web.servlet.ModelAndView com.hiczp.web.speciality.controller.admin.*.*(..))")
-    private void adminController() {
-    }
 
-    @AfterReturning(pointcut = "adminController()", returning = "modelAndView")
-    public void afterAdminControllerReturning(ModelAndView modelAndView) {
+    @AfterReturning(pointcut = "execution(org.springframework.web.servlet.ModelAndView com.hiczp.web.speciality.controller.admin.*.*(..))", returning = "modelAndView")
+    public void afterAdminControllerReturning(JoinPoint joinPoint, ModelAndView modelAndView) {
         if (modelAndView.getView() instanceof RedirectView) {
             return;
         }
 
+        //添加头像 URL
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         modelAndView.addObject("email", email)
                 .addObject("avatarPath", "https://www.gravatar.com/avatar/" + DigestUtils.md5DigestAsHex(email.trim().toLowerCase().getBytes()));
+
+        //添加 activeSidebarItem
+        if (modelAndView.getModel().get("activeSidebarItem") == null) {
+            Pattern pattern = Pattern.compile("Admin(.*)Controller");
+            Matcher matcher = pattern.matcher(joinPoint.getTarget().getClass().getSimpleName());
+            if (matcher.find()) {
+                modelAndView.addObject("activeSidebarItem", matcher.group(1).toLowerCase());
+            }
+        }
     }
 }
