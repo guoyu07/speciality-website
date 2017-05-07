@@ -46,7 +46,7 @@ jQuery(document).ready(function () {
             title: jQuery("#title").val(),
             tag: jQuery("#tag").val(),
             image: jQuery("#image").val(),
-            content: jQuery("#summernote").summernote("code"),
+            content: summerNote.summernote("code"),
             sort: jQuery("#sort").val(),
             createTime: createTimeVal,
             publish: articleStatusVal
@@ -149,7 +149,7 @@ jQuery(document).ready(function () {
             maxHeight: null,
             focus: true,
             callbacks: {
-                onImageUpload: (files) => {
+                onImageUpload: files => {
                     let formData = new FormData();
                     Array.from(files).forEach(file => {
                         if (file.type.match("image.*")) {
@@ -162,7 +162,7 @@ jQuery(document).ready(function () {
                         cache: false,
                         contentType: false,
                         processData: false,
-                    }).done((data) => {
+                    }).done(data => {
                         data.forEach((name) => {
                             summerNote.summernote("insertImage", articleImagesLocation + name);
                         });
@@ -170,6 +170,7 @@ jQuery(document).ready(function () {
                 }
             }
         });
+        summerNote.summernote("code", jQuery("#content").text());
     }
 
     initSummernote();
@@ -219,12 +220,6 @@ jQuery(document).ready(function () {
             saveArticle(false);
         }
     });
-
-    jQuery("#preview-article").click(function () {
-
-    });
-
-    restartAutoSaveArticleLoop();
 });
 
 jQuery(window).bind("beforeunload", function () {
