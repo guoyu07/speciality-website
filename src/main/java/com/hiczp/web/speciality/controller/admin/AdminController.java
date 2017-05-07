@@ -30,7 +30,7 @@ public class AdminController {
         this.loginLogRepository = loginLogRepository;
     }
 
-    @GetMapping("")
+    @GetMapping
     public ModelAndView index(ModelAndView modelAndView, @Value("${project.version}") String projectVersion) {
         modelAndView.setViewName("/admin/index");
         return modelAndView.addObject("activeSidebarItem", "overview")

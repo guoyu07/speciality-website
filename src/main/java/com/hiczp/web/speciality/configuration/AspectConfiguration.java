@@ -71,6 +71,7 @@ public class AspectConfiguration {
     }
 
 
+    //切入每个后台页面
     @AfterReturning(pointcut = "execution(org.springframework.web.servlet.ModelAndView com.hiczp.web.speciality.controller.admin.*.*(..))", returning = "modelAndView")
     public void afterAdminControllerReturning(JoinPoint joinPoint, ModelAndView modelAndView) {
         if (modelAndView.getView() instanceof RedirectView) {

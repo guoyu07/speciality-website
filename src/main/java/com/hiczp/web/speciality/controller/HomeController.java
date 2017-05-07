@@ -87,7 +87,6 @@ public class HomeController {
 
         modelAndView.setViewName("/home/search");
         return modelAndView.addObject("word", word)
-                .addObject("results", results)
-                .addObject("path", "/search");
+                .addObject("results", results);
     }
 }

@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <tag th:remove="tag" th:unless="${word==null or word==''}">
+    <div th:remove="tag" th:unless="${word==null or word==''}">
         <div class="row">
             <div class="col-md-12">
                 <h1 th:text="${word} + ' 的搜索结果, 共 ' + ${results.totalElements} + ' 条'"></h1>
@@ -51,10 +51,10 @@
 
         <div class="row" th:if="${results.totalPages>1}">
             <div class="col-md-12">
-                <div th:replace="fragments/pagination_fragment::pagination(${results},${path},'word=' + ${word})"></div>
+                <div th:replace="fragments/pagination_fragment::pagination(${results},@{/search},'word=' + ${word})"></div>
             </div>
         </div>
-    </tag>
+    </div>
 
 </div>
 </body>

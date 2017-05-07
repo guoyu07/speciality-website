@@ -27,7 +27,7 @@
 </section>
 
 <div class="box-footer clearfix" layout:fragment="currently_login_footer">
-    <div th:replace="fragments/pagination_fragment::pagination(${recentlyLoginLogs},${path},null)"></div>
+    <div th:replace="fragments/pagination_fragment::pagination(${recentlyLoginLogs},@{/admin/login_log},null)"></div>
 </div>
 
 <div layout:fragment="scripts">

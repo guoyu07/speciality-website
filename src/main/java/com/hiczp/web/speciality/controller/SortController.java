@@ -76,10 +76,10 @@ public class SortController {
         modelAndView.setViewName("/sort/index");
         return modelAndView.addObject("isArticle", isArticle)
                 .addObject("articleEntities", articleEntities)
-                .addObject("path", String.format("/sort/%d", id))
                 .addObject("articleEntity", articleEntity)
                 .addObject("sidebarSorts", sortService.getSidebarSorts(sortEntity))
                 .addObject("sidebarActive", sortEntity)
+                .addObject("sortEntity", sortEntity)
                 .addObject("breadcrumbsChain", sortService.getParentsChain(sortEntity));
     }
 }

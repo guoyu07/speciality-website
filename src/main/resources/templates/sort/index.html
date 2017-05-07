@@ -22,7 +22,7 @@
             <div th:replace="fragments/article_fragment::article(${articleEntity})"></div>
         </div>
         <div class="col-md-9" th:unless="${isArticle}">
-            <div th:replace="fragments/article_list_fragment::article_list(${articleEntities},${path})"></div>
+            <div th:replace="fragments/article_list_fragment::article_list(${articleEntities},@{/sort/{id}(id=${sortEntity.id})})"></div>
         </div>
     </div>
 </div>
