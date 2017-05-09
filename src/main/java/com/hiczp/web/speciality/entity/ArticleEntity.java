@@ -1,5 +1,8 @@
 package com.hiczp.web.speciality.entity;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -13,6 +16,7 @@ public class ArticleEntity {
     private String title;
     private String content;
     private Integer sort;
+    private SortEntity sortBySort;
     private Integer views;
     private Timestamp createTime;
     private String image;
@@ -60,6 +64,17 @@ public class ArticleEntity {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sort", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    public SortEntity getSortBySort() {
+        return sortBySort;
+    }
+
+    public void setSortBySort(SortEntity sortBySort) {
+        this.sortBySort = sortBySort;
     }
 
     @Basic

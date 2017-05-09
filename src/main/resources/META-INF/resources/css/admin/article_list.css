@@ -1,0 +1,55 @@
+.subsubsub {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    color: #666;
+}
+
+.subsubsub li {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.tablenav-pages-navspan {
+    min-width: 34px;
+}
+
+.box-article-list {
+    border: 1px solid #e5e5e5;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.box-article-list > .box-body {
+    padding: 0;
+}
+
+.box-article-list input[type=checkbox] {
+    border: 1px solid #b4b9be;
+    background: white;
+    color: #555;
+    clear: none;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 0;
+    height: 16px;
+    margin: -4px 4px 0 0;
+    outline: 0;
+    padding: 0 !important;
+    text-align: center;
+    vertical-align: middle;
+    width: 16px;
+    min-width: 16px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    transition: .05s border-color ease-in-out;
+}
+
+.article-row .row-action {
+    display: none;
+}
+
+.article-row:hover .row-action {
+    display: block;
+}

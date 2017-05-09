@@ -93,4 +93,14 @@ public class SortEntity {
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
+
+    public SortEntity clone() {
+        SortEntity sortEntity = new SortEntity();
+        sortEntity.setId(id);
+        sortEntity.setName(name);
+        sortEntity.setParent(parent);
+        sortEntity.setTaxis(parent);
+        sortEntity.setType(type);
+        return sortEntity;
+    }
 }

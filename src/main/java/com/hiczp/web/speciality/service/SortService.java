@@ -149,7 +149,7 @@ public class SortService {
     }
 
     public List<SortEntity> getTreeListText(String prefix) {
-        List<SortEntity> sortEntities = getTreeList();
+        List<SortEntity> sortEntities = getTreeList().stream().map(SortEntity::clone).collect(Collectors.toList());
         int[] level = new int[sortEntities.size()];
         for (int i = 1; i < sortEntities.size(); i++) {
             SortEntity pre = sortEntities.get(i - 1);

@@ -3,15 +3,18 @@ package com.hiczp.web.speciality.controller.admin;
 import com.hiczp.web.speciality.entity.ArticleEntity;
 import com.hiczp.web.speciality.exception.ArticleNotFoundException;
 import com.hiczp.web.speciality.model.ArticleFormModel;
+import com.hiczp.web.speciality.model.ArticleListFormModel;
 import com.hiczp.web.speciality.repository.ArticleRepository;
+import com.hiczp.web.speciality.repository.UserRepository;
 import com.hiczp.web.speciality.service.SortService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.awt.print.Pageable;
 import java.sql.Timestamp;
 
 /**
@@ -22,16 +25,24 @@ import java.sql.Timestamp;
 public class AdminArticleController {
     private SortService sortService;
     private ArticleRepository articleRepository;
+    private UserRepository userRepository;
 
-    public AdminArticleController(SortService sortService, ArticleRepository articleRepository) {
+    public AdminArticleController(SortService sortService, ArticleRepository articleRepository, UserRepository userRepository) {
         this.sortService = sortService;
         this.articleRepository = articleRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/article")
-    public ModelAndView article(ModelAndView modelAndView, Pageable pageable) {
+    public ModelAndView article(ModelAndView modelAndView, ArticleListFormModel articleListFormModel, Pageable pageable) {
+        if (articleListFormModel.getWord() == null) {
+            articleListFormModel.setWord("");
+        }
         modelAndView.setViewName("/admin/article_list");
-        return modelAndView;
+        return modelAndView.addObject("userId", userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId())
+                .addObject("articleListFormModel", articleListFormModel)
+                .addObject("articleEntities", articleRepository.findByTitleContainsOrderByCreateTimeDesc(articleListFormModel.getWord(), pageable))
+                .addObject("sortEntities", sortService.getTreeListText());
     }
 
     @GetMapping("/article/{id}")

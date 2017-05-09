@@ -34,7 +34,7 @@ public class ArticleController {
     @GetMapping("/{id}")
     public ModelAndView index(ModelAndView modelAndView, @PathVariable Integer id) {
         ArticleEntity articleEntity = articleRepository.findOne(id);
-        if (articleEntity == null) {
+        if (articleEntity == null || !articleEntity.getPublish()) {
             throw new ArticleNotFoundException();
         }
         SortEntity sortEntity = sortRepository.findOne(articleEntity.getSort());

@@ -173,9 +173,9 @@ jQuery(document).ready(function () {
         summerNote.summernote("code", jQuery("#content").text());
     }
 
-    initSummernote();
     updateArticleStatusDisplay();
     updateCreateTime();
+    initSummernote();
 
     jQuery(".hide-if-no-js").click(function () {
         let button = jQuery(this);
