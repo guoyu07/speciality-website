@@ -47,9 +47,9 @@
 }
 
 .article-row .row-action {
-    display: none;
+    visibility: hidden;
 }
 
 .article-row:hover .row-action {
-    display: block;
+    visibility: visible;
 }

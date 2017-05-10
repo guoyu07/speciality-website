@@ -47,12 +47,12 @@
         <div class="col-md-12">
             <div class="pull-left form-inline">
                 <div class="form-group" style="margin-right: 12px" th:fragment="article_action">
-                    <select class="form-control">
+                    <select class="form-control article-action-select">
                         <option value="0">批量操作</option>
                         <option value="1">取消发布</option>
                         <option value="2">删除文章</option>
                     </select>
-                    <button class="btn btn-default">应用</button>
+                    <button class="btn btn-default article-action-button">应用</button>
                 </div>
                 <div class="form-group">
                     <select class="form-control" th:field="*{sortId}">
