@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "sort", schema = "speciality_website", catalog = "")
-public class SortEntity {
+public class SortEntity implements Cloneable {
     private int id;
     private String name;
     private Integer parent;
@@ -95,12 +95,11 @@ public class SortEntity {
     }
 
     public SortEntity clone() {
-        SortEntity sortEntity = new SortEntity();
-        sortEntity.setId(id);
-        sortEntity.setName(name);
-        sortEntity.setParent(parent);
-        sortEntity.setTaxis(parent);
-        sortEntity.setType(type);
-        return sortEntity;
+        try {
+            return (SortEntity) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

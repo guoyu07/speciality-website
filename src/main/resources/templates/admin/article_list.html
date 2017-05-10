@@ -127,15 +127,19 @@
                                              target="_blank">查看</a></span>
                                 </div>
                             </td>
-                            <td><a href="#" th:href="@{/admin/article(author=${articleEntity.userByAuthor.id})}"
-                                   th:text="${articleEntity.userByAuthor.nick}">作者名</a></td>
-                            <td th:if="${articleEntity.sort!=0 and sortEntity!=null}"><a href="#"
-                                                                                         th:href="@{/admin/article(sortId=${sortEntity.id})}"
-                                                                                         th:text="${sortEntity.name}">分类名</a>
+                            <td>
+                                <a href="#" th:href="@{/admin/article(author=${articleEntity.userByAuthor.id})}"
+                                   th:text="${articleEntity.userByAuthor.nick}">作者名</a>
                             </td>
-                            <td th:unless="${articleEntity.sort!=0 and sortEntity!=null}"><a
-                                    th:href="@{/admin/article(sortId=0)}">未分类</a></td>
-                            <td th:text="${articleEntity.tag==null or articleEntity.tag==''?'-':articleEntity.tag}">标签
+                            <td th:if="${articleEntity.sort!=0 and sortEntity!=null}">
+                                <a href="#" th:href="@{/admin/article(sortId=${sortEntity.id})}"
+                                   th:text="${sortEntity.name}">分类名</a>
+                            </td>
+                            <td th:unless="${articleEntity.sort!=0 and sortEntity!=null}">
+                                <a th:href="@{/admin/article(sortId=0)}">未分类</a>
+                            </td>
+                            <td th:text="${articleEntity.tag==null or articleEntity.tag==''?'-':articleEntity.tag}">
+                                标签
                             </td>
                             <td th:inline="text">
                                 [[${articleEntity.publish?'已发布':'未发布'}]]
