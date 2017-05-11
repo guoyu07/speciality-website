@@ -26,12 +26,22 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull-left">
-                <ul class="subsubsub">
-                    <li><a th:href="@{/admin/article}">全部<span class="text-muted">（11）</span></a> |</li>
-                    <li><a th:href="@{/admin/article(author=${userId})}">我的</a><span class="text-muted">（1）</span> |
+                <ul class="subsubsub" th:inline="text">
+                    <li>
+                        <a th:href="@{/admin/article}">全部<span class="text-muted">（[[${allArticleCount}]]）</span></a>
+                        |
                     </li>
-                    <li><a th:href="@{/admin/article(publish=true)}">已发布</a><span class="text-muted">（11）</span> |</li>
-                    <li><a th:href="@{/admin/article(publish=false)}">未发布</a><span class="text-muted">（0）</span></li>
+                    <li>
+                        <a th:href="@{/admin/article(author=${userId})}">我的</a><span class="text-muted">（[[${myArticleCount}]]）</span>
+                        |
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/article(publish=true)}">已发布</a><span class="text-muted">（[[${publishedArticleCount}]]）</span>
+                        |
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/article(publish=false)}">未发布</a><span class="text-muted">（[[${unpublishedArticleCount}]]）</span>
+                    </li>
                 </ul>
             </div>
             <div class="pull-right">
@@ -127,9 +137,9 @@
                                         <strong><a href="#" th:href="@{/admin/article/{id}(id=${articleEntity.id})}"
                                                    th:text="${articleEntity.title}">文章名</a></strong>
                                         <div class="row-action">
-                                            <span><a class="publish-article" href="#">发布文章</a> | </span>
-                                            <span><a class="cancel-publish" href="#">取消发布</a> | </span>
-                                            <span><a class="delete-article text-warning" href="#">删除文章</a> | </span>
+                                            <span><a class="publish-article">发布文章</a> | </span>
+                                            <span><a class="cancel-publish">取消发布</a> | </span>
+                                            <span><a class="delete-article text-warning">删除文章</a> | </span>
                                             <span><a href="#" th:href="@{/article/{id}(id=${articleEntity.id})}"
                                                      target="_blank">查看</a></span>
                                         </div>

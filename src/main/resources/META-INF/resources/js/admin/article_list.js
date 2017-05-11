@@ -30,7 +30,15 @@ jQuery(document).ready(function () {
 
     function generateURL(key, value) {
         let myParam = key + "=" + value;
+        let url = window.location.href;
         let params = window.location.search.substring(1).split("&");
+        //无参数时
+        if (params.length === 1 && params[0] === "") {
+            if (url.indexOf("?") === -1) {
+                url += "?";
+            }
+            return url + myParam;
+        }
         let i;
         for (i = 0; i < params.length; i++) {
             if (params[i].split("=")[0] === key) {
@@ -41,7 +49,6 @@ jQuery(document).ready(function () {
         if (i === params.length) {
             params.push(myParam);
         }
-        let url = window.location.href;
         return url.substring(0, url.indexOf("?") + 1) + params.join("&");
     }
 

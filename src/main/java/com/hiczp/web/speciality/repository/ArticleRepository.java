@@ -3,6 +3,7 @@ package com.hiczp.web.speciality.repository;
 import com.hiczp.web.speciality.entity.ArticleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * Created by czp on 17-2-17.
  */
-public interface ArticleRepository extends PagingAndSortingRepository<ArticleEntity, Integer> {
+public interface ArticleRepository extends PagingAndSortingRepository<ArticleEntity, Integer>, JpaSpecificationExecutor<ArticleEntity> {
     List<ArticleEntity> findByIdIn(Integer[] ids);
 
     List<ArticleEntity> findBySort(Integer sort);
@@ -27,5 +28,9 @@ public interface ArticleRepository extends PagingAndSortingRepository<ArticleEnt
 
     Page<ArticleEntity> findByTitleContainsOrContentContainsOrTagContainsAndPublishTrueOrderByCreateTimeDesc(String title, String content, String tag, Pageable pageable);
 
-    Page<ArticleEntity> findByTitleContainsOrderByCreateTimeDesc(String word, Pageable pageable);
+    Long countByAuthor(Integer author);
+
+    Long countByPublishTrue();
+
+    Long countByPublishFalse();
 }

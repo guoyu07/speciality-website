@@ -57,3 +57,7 @@
 .article-list-table {
     margin: 0;
 }
+
+.article-list-table a {
+    cursor: pointer;
+}
