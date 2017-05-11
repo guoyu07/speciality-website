@@ -99,7 +99,7 @@ jQuery(document).ready(function () {
             switch (data.status) {
                 case 401: {
                     alert("登录后才能编辑文章");
-                    window.location.href = loginPage;
+                    location.reload();
                 }
                     break;
                 case 400: {

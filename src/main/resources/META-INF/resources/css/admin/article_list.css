@@ -53,3 +53,7 @@
 .article-row:hover .row-action {
     visibility: visible;
 }
+
+.article-list-table {
+    margin: 0;
+}

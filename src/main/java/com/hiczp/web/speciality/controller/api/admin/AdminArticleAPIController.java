@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Created by czp on 17-4-25.
@@ -71,5 +74,37 @@ public class AdminArticleAPIController {
         articleEntity.setPublish(articleFormModel.getPublish());
         articleRepository.save(articleEntity);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/do")
+    public ResponseEntity doAction(ArticleAction articleAction, Integer[] selectedArticle) {
+        if (articleAction == null || selectedArticle == null) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        Integer[] ids = Stream.of(selectedArticle).filter(Objects::nonNull).toArray(Integer[]::new);
+        List<ArticleEntity> articleEntities = articleRepository.findByIdIn(ids);
+        switch (articleAction) {
+            case PUBLISH_ARTICLE: {
+                articleEntities.parallelStream().forEach(articleEntity -> articleEntity.setPublish(true));
+                articleRepository.save(articleEntities);
+            }
+            break;
+            case CANCEL_PUBLISH: {
+                articleEntities.parallelStream().forEach(articleEntity -> articleEntity.setPublish(false));
+                articleRepository.save(articleEntities);
+            }
+            break;
+            case DELETE_ARTICLE: {
+                articleRepository.delete(articleEntities);
+            }
+            break;
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    private enum ArticleAction {
+        PUBLISH_ARTICLE,
+        CANCEL_PUBLISH,
+        DELETE_ARTICLE
     }
 }

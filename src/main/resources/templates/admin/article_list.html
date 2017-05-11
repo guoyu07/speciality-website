@@ -48,14 +48,15 @@
             <div class="pull-left form-inline">
                 <div class="form-group" style="margin-right: 12px" th:fragment="article_action">
                     <select class="form-control article-action-select">
-                        <option value="0">批量操作</option>
-                        <option value="1">取消发布</option>
-                        <option value="2">删除文章</option>
+                        <option value="" selected="selected">批量操作</option>
+                        <option value="PUBLISH_ARTICLE">发布文章</option>
+                        <option value="CANCEL_PUBLISH">取消发布</option>
+                        <option value="DELETE_ARTICLE">删除文章</option>
                     </select>
-                    <button class="btn btn-default article-action-button">应用</button>
+                    <button class="btn btn-default article-action-button" disabled="disabled">应用</button>
                 </div>
                 <div class="form-group">
-                    <select class="form-control" th:field="*{sortId}">
+                    <select class="form-control" id="article-filter-select" th:field="*{sortId}">
                         <option value="-1">所有分类目录</option>
                         <option value="0">未分类</option>
                         <option th:each="sortEntity : ${sortEntities}" th:text="${sortEntity.name}"
@@ -63,18 +64,18 @@
                             分类名
                         </option>
                     </select>
-                    <button class="btn btn-default">筛选</button>
+                    <a class="btn btn-default" id="article-filter-button">筛选</a>
                 </div>
             </div>
             <div class="pull-right form-inline">
                 <div class="form-group">
                     <span th:inline="text">[[${articleEntities.totalElements}]]项目</span>
                     <span th:fragment="pagination_group_left">
-                        <a class="btn btn-default tablenav-pages-navspan"
+                        <a class="btn btn-default tablenav-pages-navspan link-to-first"
                            th:classappend="${articleEntities.first?'disabled':''}">
                             <i class="fa fa-angle-double-left"></i>
                         </a>
-                        <a class="btn btn-default tablenav-pages-navspan"
+                        <a class="btn btn-default tablenav-pages-navspan link-to-previous"
                            th:classappend="${articleEntities.first?'disabled':''}">
                             <i class="fa fa-angle-left"></i>
                         </a>
@@ -83,11 +84,11 @@
                     <input class="form-control input-sm" th:value="${articleEntities.number+1}"/>
                     <span th:inline="text">页, 共[[${articleEntities.totalPages}]]页</span>
                     <span th:fragment="pagination_group_right">
-                        <a class="btn btn-default tablenav-pages-navspan"
+                        <a class="btn btn-default tablenav-pages-navspan link-to-next"
                            th:classappend="${articleEntities.last?'disabled':''}">
                             <i class="fa fa-angle-right"></i>
                         </a>
-                        <a class="btn btn-default tablenav-pages-navspan"
+                        <a class="btn btn-default tablenav-pages-navspan link-to-last"
                            th:classappend="${articleEntities.last?'disabled':''}">
                             <i class="fa fa-angle-double-right"></i>
                         </a>
@@ -101,57 +102,65 @@
         <div class="col-md-12">
             <div class="box box-article-list">
                 <div class="box-body">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr th:fragment="article_list_thead_tr">
-                            <td><input class="checkbox" type="checkbox"/></td>
-                            <th>标题</th>
-                            <th>作者</th>
-                            <th>分类</th>
-                            <th>标签</th>
-                            <th>日期</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="article-row" th:each="articleEntity : ${articleEntities}"
-                            th:with="sortEntity=${articleEntity.sortBySort}">
-                            <th><input class="checkbox" type="checkbox"/></th>
-                            <td>
-                                <strong><a href="#" th:href="@{/admin/article/{id}(id=${articleEntity.id})}"
-                                           th:text="${articleEntity.title}">文章名</a></strong>
-                                <div class="row-action">
-                                    <span><a href="#" th:href="@{/admin/article/{id}(id=${articleEntity.id})}">编辑</a> | </span>
-                                    <span><a href="#">取消发布</a> | </span>
-                                    <span><a href="#" class="text-warning">删除文章</a> | </span>
-                                    <span><a href="#" th:href="@{/article/{id}(id=${articleEntity.id})}"
-                                             target="_blank">查看</a></span>
-                                </div>
-                            </td>
-                            <td>
-                                <a href="#" th:href="@{/admin/article(author=${articleEntity.userByAuthor.id})}"
-                                   th:text="${articleEntity.userByAuthor.nick}">作者名</a>
-                            </td>
-                            <td th:if="${articleEntity.sort!=0 and sortEntity!=null}">
-                                <a href="#" th:href="@{/admin/article(sortId=${sortEntity.id})}"
-                                   th:text="${sortEntity.name}">分类名</a>
-                            </td>
-                            <td th:unless="${articleEntity.sort!=0 and sortEntity!=null}">
-                                <a th:href="@{/admin/article(sortId=0)}">未分类</a>
-                            </td>
-                            <td th:text="${articleEntity.tag==null or articleEntity.tag==''?'-':articleEntity.tag}">
-                                标签
-                            </td>
-                            <td th:inline="text">
-                                [[${articleEntity.publish?'已发布':'未发布'}]]
-                                <br/>
-                                <abbr th:title="${#dates.format(articleEntity.createTime,'YYYY-MM-dd HH:mm:ss')}">[[${#dates.format(articleEntity.createTime,'YYYY-MM-dd')}]]</abbr>
-                            </td>
-                        </tr>
-                        </tbody>
-                        <tfoot>
-                        <tr th:replace="::article_list_thead_tr"></tr>
-                        </tfoot>
-                    </table>
+                    <div class="table-responsive">
+                        <form id="article-action-form">
+                            <table class="table table-striped article-list-table" id="article-list-table">
+                                <thead>
+                                <tr th:fragment="article_list_thead_tr">
+                                    <td><input class="checkbox select-all" type="checkbox"/></td>
+                                    <th>标题</th>
+                                    <th>作者</th>
+                                    <th>分类</th>
+                                    <th>标签</th>
+                                    <th>日期</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="article-row" th:each="articleEntity : ${articleEntities}"
+                                    th:with="sortEntity=${articleEntity.sortBySort}"
+                                    th:attr="data-id=${articleEntity.id},data-title=${articleEntity.title}">
+                                    <th>
+                                        <input class="checkbox" type="checkbox" name="selectedArticle"
+                                               th:value="${articleEntity.id}"/>
+                                    </th>
+                                    <td>
+                                        <strong><a href="#" th:href="@{/admin/article/{id}(id=${articleEntity.id})}"
+                                                   th:text="${articleEntity.title}">文章名</a></strong>
+                                        <div class="row-action">
+                                            <span><a class="publish-article" href="#">发布文章</a> | </span>
+                                            <span><a class="cancel-publish" href="#">取消发布</a> | </span>
+                                            <span><a class="delete-article text-warning" href="#">删除文章</a> | </span>
+                                            <span><a href="#" th:href="@{/article/{id}(id=${articleEntity.id})}"
+                                                     target="_blank">查看</a></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="#" th:href="@{/admin/article(author=${articleEntity.userByAuthor.id})}"
+                                           th:text="${articleEntity.userByAuthor.nick}">作者名</a>
+                                    </td>
+                                    <td th:if="${articleEntity.sort!=0 and sortEntity!=null}">
+                                        <a href="#" th:href="@{/admin/article(sortId=${sortEntity.id})}"
+                                           th:text="${sortEntity.name}">分类名</a>
+                                    </td>
+                                    <td th:unless="${articleEntity.sort!=0 and sortEntity!=null}">
+                                        <a th:href="@{/admin/article(sortId=0)}">未分类</a>
+                                    </td>
+                                    <td th:text="${articleEntity.tag==null or articleEntity.tag==''?'-':articleEntity.tag}">
+                                        标签
+                                    </td>
+                                    <td th:inline="text">
+                                        [[${articleEntity.publish?'已发布':'未发布'}]]
+                                        <br/>
+                                        <abbr th:title="${#dates.format(articleEntity.createTime,'YYYY-MM-dd HH:mm:ss')}">[[${#dates.format(articleEntity.createTime,'YYYY-MM-dd')}]]</abbr>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr th:replace="::article_list_thead_tr"></tr>
+                                </tfoot>
+                            </table>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -174,8 +183,14 @@
     </div>
 </section>
 
-<div layout:fragment="scripts">
+<script layout:fragment="presetVariables" th:inline="javascript">
+    const articleDoAPIPostURL = /*[[@{/api/admin/article/do}]]*/ null;
+    const currentPage = /*[[${articleEntities.number}]]*/ null;
+    const totalPage = /*[[${articleEntities.totalPages-1}]]*/ null;
+</script>
 
+<div layout:fragment="scripts">
+    <script src="/js/admin/article_list.js" th:src="@{/js/admin/article_list.js}"></script>
 </div>
 </body>
 </html>
