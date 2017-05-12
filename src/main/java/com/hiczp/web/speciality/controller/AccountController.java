@@ -19,7 +19,6 @@ public class AccountController {
             modelAndView.setView(new RedirectView("/admin"));
             return modelAndView;
         }
-        modelAndView.setViewName("/account/login");
         return modelAndView.addObject("error", error);
     }
 }

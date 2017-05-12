@@ -21,7 +21,6 @@ public class AdminUserController {
 
     @GetMapping("/login_log")
     public ModelAndView loginLog(ModelAndView modelAndView, Pageable pageable) {
-        modelAndView.setViewName("/admin/login_log");
         return modelAndView.addObject("recentlyLoginLogs", loginLogRepository.findByOrderByTimeDesc(pageable));
     }
 }
