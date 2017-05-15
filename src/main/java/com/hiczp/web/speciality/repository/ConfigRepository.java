@@ -11,5 +11,5 @@ import java.util.List;
 public interface ConfigRepository extends CrudRepository<ConfigEntity, Integer> {
     ConfigEntity findByKey(String key);
 
-    List<ConfigEntity> findByKeyIn(List<String> keys);
+    List<ConfigEntity> findByKeyIn(String... keys);
 }

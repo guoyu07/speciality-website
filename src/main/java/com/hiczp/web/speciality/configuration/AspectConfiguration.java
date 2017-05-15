@@ -17,7 +17,6 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,10 +56,10 @@ public class AspectConfiguration {
         }
 
         //附加设置信息到返回值
-        configRepository.findByKeyIn(Arrays.asList("specialityName",
+        configRepository.findByKeyIn("specialityName",
                 "universityName",
                 "copyright",
-                "icp")).forEach(configEntity ->
+                "icp").parallelStream().forEach(configEntity ->
                 modelAndView.addObject(configEntity.getKey(), configEntity.getValue())
         );
 

@@ -13,8 +13,7 @@ public class ConfigEntity {
     private String value;
 
     @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -24,7 +23,7 @@ public class ConfigEntity {
     }
 
     @Basic
-    @Column(name = "key", nullable = false, length = 255)
+    @Column(name = "key")
     public String getKey() {
         return key;
     }
@@ -34,7 +33,7 @@ public class ConfigEntity {
     }
 
     @Basic
-    @Column(name = "value", nullable = false, length = 255)
+    @Column(name = "value")
     public String getValue() {
         return value;
     }

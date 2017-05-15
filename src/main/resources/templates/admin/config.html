@@ -1,0 +1,149 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout_admin">
+<head>
+    <link rel="stylesheet" href="/css/admin/config.css" th:href="@{/css/admin/config.css}"/>
+</head>
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="/webjars/ionicons/2.0.1/css/ionicons.min.css"/>
+<link rel="stylesheet" href="/webjars/AdminLTE/2.3.8/dist/css/AdminLTE.min.css"/>
+<link rel="stylesheet" href="/webjars/AdminLTE/2.3.8/dist/css/skins/skin-blue.min.css"/>
+<section class="content-header" layout:fragment="content-header">
+    <h1>系统设置</h1>
+    <ol class="breadcrumb">
+        <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> 控制面板</a></li>
+        <li class="active"><i class="fa fa-cog"></i> 系统设置</li>
+    </ol>
+</section>
+
+<section class="content" layout:fragment="content">
+    <form id="config-form" method="post" th:object="${configFormModel}">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">系统设置</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('universityName')?'has-error':''}">
+                            <label>学校名称</label>
+                            <input type="text" class="form-control" th:field="*{universityName}"/>
+                            <span class="help-block" th:errors="*{universityName}">Error</span>
+                        </div>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('specialityName')?'has-error':''}">
+                            <label>专业名称</label>
+                            <input type="text" class="form-control" th:field="*{specialityName}"/>
+                            <span class="help-block" th:errors="*{specialityName}">Error</span>
+                        </div>
+                        <div class="form-group">
+                            <label>版权信息</label>
+                            <input type="text" class="form-control" th:field="*{copyright}"/>
+                        </div>
+                        <div class="form-group">
+                            <label>备案信息</label>
+                            <input type="text" class="form-control" th:field="*{icp}"/>
+                        </div>
+                        <div class="form-group" data-template="navbarSorts-template">
+                            <label>导航栏分类</label>
+                            <small> (仅根分类可以设置为导航栏分类)</small>
+                            <a class="fa fa-plus-circle add-more"></a>
+                            <div class="form-inline" th:each="navbarSort : *{navbarSorts}">
+                                <select class="form-control multi-line" name="navbarSorts">
+                                    <option th:each="rootSort : ${rootSorts}" th:value="${rootSort.id}"
+                                            th:text="${rootSort.name}"
+                                            th:attr="selected=${rootSort.id==navbarSort?'selected':null}">分类名
+                                    </option>
+                                </select>
+                                <a class="fa fa-plus-circle add-more-child"></a>
+                                <a class="fa fa-minus-circle remove-parent"></a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>首页主分类</label>
+                            <select class="form-control" th:field="*{mainIndexSort}">
+                                <option th:each="sortEntity : ${sortEntities}" th:value="${sortEntity.id}"
+                                        th:text="${sortEntity.name}">分类名
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group" data-template="indexSorts-template">
+                            <label>首页副分类</label>
+                            <a class="fa fa-plus-circle add-more"></a>
+                            <div class="form-inline" th:each="indexSort : *{indexSorts}">
+                                <select class="form-control multi-line" name="indexSorts">
+                                    <option th:each="sortEntity : ${sortEntities}" th:value="${sortEntity.id}"
+                                            th:text="${sortEntity.name}"
+                                            th:attr="selected=${sortEntity.id==indexSort?'selected':null}">分类名
+                                    </option>
+                                </select>
+                                <a class="fa fa-plus-circle add-more-child"></a>
+                                <a class="fa fa-minus-circle remove-parent"></a>
+                            </div>
+                        </div>
+                        <div class="form-group" data-template="carouselImages-template">
+                            <label>首页轮播图</label>
+                            <small> (推荐 360x480 分辨率)</small>
+                            <a class="fa fa-plus-circle add-more"></a>
+                            <div class="form-inline" th:each="carouselImage : *{carouselImages}">
+                                <input class="form-control multi-line" name="carouselImages" style="width: 90%"
+                                       th:value="${carouselImage}"/>
+                                <a class="fa fa-plus-circle add-more-child"></a>
+                                <a class="fa fa-minus-circle remove-parent"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="alert alert-danger alert-dismissible"
+                     th:style="'display:'+${#fields.hasAnyErrors()?'':'none'}" th:inline="text">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Error!</h4>
+                    [[${message}]]
+                </div>
+                <div class="alert alert-success alert-dismissible"
+                     th:style="'display:'+${#fields.hasAnyErrors() or message==null?'none':''}">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Success!</h4>
+                    系统设置已保存.
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="hidden" th:object="${configFormModel}">
+        <div class="form-inline" id="navbarSorts-template">
+            <select class="form-control multi-line" name="navbarSorts">
+                <option th:each="rootSort : ${rootSorts}" th:value="${rootSort.id}" th:text="${rootSort.name}">分类名
+                </option>
+            </select>
+            <a class="fa fa-plus-circle add-more-child"></a>
+            <a class="fa fa-minus-circle remove-parent"></a>
+        </div>
+        <div class="form-inline" id="indexSorts-template">
+            <select class="form-control multi-line" name="indexSorts">
+                <option th:each="sortEntity : ${sortEntities}" th:value="${sortEntity.id}" th:text="${sortEntity.name}">
+                    分类名
+                </option>
+            </select>
+            <a class="fa fa-plus-circle add-more-child"></a>
+            <a class="fa fa-minus-circle remove-parent"></a>
+        </div>
+        <div class="form-inline" id="carouselImages-template">
+            <input class="form-control multi-line" name="carouselImages" style="width: 90%"/>
+            <a class="fa fa-plus-circle add-more-child"></a>
+            <a class="fa fa-minus-circle remove-parent"></a>
+        </div>
+    </div>
+</section>
+
+<div layout:fragment="scripts">
+    <script src="/js/admin/config.js" th:src="@{/js/admin/config.js}"></script>
+</div>
+
+</body>
+</html>
