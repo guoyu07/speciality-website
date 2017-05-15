@@ -1,0 +1,110 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout_admin">
+<head>
+
+</head>
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="/webjars/ionicons/2.0.1/css/ionicons.min.css"/>
+<link rel="stylesheet" href="/webjars/AdminLTE/2.3.8/dist/css/AdminLTE.min.css"/>
+<link rel="stylesheet" href="/webjars/AdminLTE/2.3.8/dist/css/skins/skin-blue.min.css"/>
+<section class="content-header" layout:fragment="content-header">
+    <h1>性能监控</h1>
+    <ol class="breadcrumb">
+        <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> 控制面板</a></li>
+        <li><i class="fa fa-wrench"></i> 工具</li>
+        <li class="active"> 性能监控</li>
+    </ol>
+</section>
+
+<section class="content" layout:fragment="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">内存</h3>
+                        </div>
+                        <div class="box-body">
+                            <p>内存占用</p>
+                            <div class="progress">
+                                <div id="memory-progress-bar"
+                                     class="progress-bar progress-bar-primary progress-bar-striped">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-header with-border">
+                            <h3 class="box-title">磁盘</h3>
+                        </div>
+                        <div class="box-body">
+                            <p>磁盘占用</p>
+                            <div class="progress">
+                                <div id="disk-progress-bar"
+                                     class="progress-bar progress-bar-primary progress-bar-striped">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">HTTP会话</h3>
+                        </div>
+                        <div class="box-body">
+                            <p id="max-http-sessions">最大会话数: </p>
+                            <p id="active-http-sessions">活跃会话数: </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">实例</h3>
+                        </div>
+                        <div class="box-body">
+                            <p id="contain-time">容器运行时间: </p>
+                            <p id="instance-time">实例运行时间: </p>
+                            <p id="process-number">处理器数量: </p>
+                            <p id="system-load">系统负载: </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">数据源</h3>
+                        </div>
+                        <div class="box-body">
+                            <p id="datasource-type">类型: </p>
+                            <p id="active-datasource-connection">活动数据库连接: </p>
+                            <p id="datasource-connection-pool-usage">数据库连接池使用: </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script layout:fragment="presetVariables" th:inline="javascript">
+    const endpointURL = /*[[@{/management/}]]*/ "/management/";
+</script>
+
+<div layout:fragment="scripts">
+    <script src="/js/admin/tool/actuator.js" th:src="@{/js/admin/tool/actuator.js}"></script>
+</div>
+
+</body>
+</html>

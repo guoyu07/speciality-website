@@ -31,7 +31,7 @@ public class AdminController {
     }
 
     @GetMapping
-    public ModelAndView index(ModelAndView modelAndView, @Value("${project.version}") String projectVersion) {
+    public ModelAndView index(ModelAndView modelAndView, @Value("${info.project.version}") String projectVersion) {
         modelAndView.setViewName("/admin/index");
         return modelAndView.addObject("activeSidebarItem", "overview")
                 .addObject("projectVersion", projectVersion)
