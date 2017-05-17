@@ -6,10 +6,30 @@
     visibility: visible;
 }
 
+@media all and (max-width: 768px) {
+    .user-table tr .hide-if-no-hover {
+        visibility: visible;
+    }
+}
+
 .user-table i.fa {
     cursor: pointer;
 }
 
 .table {
     table-layout: fixed;
+}
+
+@media all and (max-width: 768px) {
+    .table {
+        table-layout: auto;
+    }
+}
+
+.box-header {
+    padding-bottom: 0;
+}
+
+.box-header input, button {
+    margin-bottom: 10px;
 }
