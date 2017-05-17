@@ -33,4 +33,6 @@ public interface ArticleRepository extends PagingAndSortingRepository<ArticleEnt
     Long countByPublishTrue();
 
     Long countByPublishFalse();
+
+    List<ArticleEntity> findByAuthor(Integer author);
 }

@@ -23,6 +23,7 @@
                 <thead>
                 <tr>
                     <th>邮箱</th>
+                    <th>昵称</th>
                     <th>IP</th>
                     <th>位置
                         <a class="tooltip-test" href="http://ip-api.com/docs/unban" target="_blank"
@@ -36,6 +37,7 @@
                 <tbody>
                 <tr th:each="loginLog : ${recentlyLoginLogs}">
                     <td th:text="${loginLog.userByUser.email}">Call of Duty IV</td>
+                    <td th:text="${loginLog.userByUser.nick}"></td>
                     <td th:text="${loginLog.ip}">admin@gmail.com</td>
                     <td th:attr="data-ip=${loginLog.ip}"><span class="fa fa-spin fa-spinner"></span></td>
                     <td th:text="${#dates.format(loginLog.time,'yyyy-MM-dd HH:mm:ss')}">2017-02-31</td>

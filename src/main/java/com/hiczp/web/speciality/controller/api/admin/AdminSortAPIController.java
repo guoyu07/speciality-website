@@ -7,6 +7,7 @@ import com.hiczp.web.speciality.repository.SortRepository;
 import com.hiczp.web.speciality.service.SortService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ public class AdminSortAPIController {
         this.articleRepository = articleRepository;
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity deleteById(@PathVariable Integer id) {
         SortEntity sortEntity = sortRepository.findOne(id);

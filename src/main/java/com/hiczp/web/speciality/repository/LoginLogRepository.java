@@ -14,4 +14,6 @@ public interface LoginLogRepository extends PagingAndSortingRepository<LoginLogE
     List<LoginLogEntity> findTop5ByOrderByTimeDesc();
 
     Page<LoginLogEntity> findByOrderByTimeDesc(Pageable pageable);
+
+    void deleteByUser(Integer user);
 }

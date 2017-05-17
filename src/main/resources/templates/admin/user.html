@@ -1,0 +1,86 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout_admin">
+<head>
+    <link rel="stylesheet" href="/css/admin/user.css" th:href="@{/css/admin/user.css}"/>
+</head>
+<body>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="/webjars/ionicons/2.0.1/css/ionicons.min.css"/>
+<link rel="stylesheet" href="/webjars/AdminLTE/2.3.8/dist/css/AdminLTE.min.css"/>
+<link rel="stylesheet" href="/webjars/AdminLTE/2.3.8/dist/css/skins/skin-blue.min.css"/>
+<section class="content-header" layout:fragment="content-header">
+    <h1>
+        用户
+        <small id="notification"></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> 控制面板</a></li>
+        <li><i class="fa fa-users"></i> 用户管理</li>
+        <li class="active">用户</li>
+    </ol>
+</section>
+
+<section class="content" layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <form id="create-user-form" class="form-inline" method="post">
+                        <div class="form-group">
+                            <input class="form-control" type="email" id="email" name="email" placeholder="邮箱"
+                                   required="required"/>
+                            <input class="form-control" type="password" name="password" placeholder="密码"
+                                   required="required"/>
+                            <input class="form-control" type="text" name="nick" placeholder="昵称" required="required"/>
+                            <button class="form-control" type="submit">创建</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover user-table">
+                        <thead>
+                        <tr>
+                            <th style="width: 10%">#ID</th>
+                            <th>邮箱</th>
+                            <th>昵称</th>
+                            <th>密码</th>
+                            <th style="width: 4%"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="form-inline" th:each="userEntity : ${userEntities}"
+                            th:attr="data-id=${userEntity.id},data-email=${userEntity.email},data-nick=${userEntity.nick}">
+                            <td th:text="${userEntity.id}"></td>
+                            <td th:text="${userEntity.email}"></td>
+                            <td th:inline="text">
+                                <span class="nick">[[${userEntity.nick}]]</span>
+                                <i class="fa fa-pencil text-muted hide-if-no-hover edit-nick"></i>
+                            </td>
+                            <td>
+                                <span class="password">●●●●●●●</span>
+                                <i class="fa fa-pencil text-muted hide-if-no-hover edit-password"></i>
+                            </td>
+                            <td><i class="fa fa-trash text-muted hide-if-no-hover" th:if="${userEntity.id!=1}"></i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script layout:fragment="presetVariables" th:inline="javascript">
+    const validateUserAPIURL = /*[[@{/api/admin/validate_user}]]*/ "/api/admin/validate_user";
+    const userAPIURL = /*[[@{/api/admin/user/}]]*/ "/api/admin/user/";
+</script>
+
+<div layout:fragment="scripts">
+    <script src="/webjars/jquery-validation/1.16.0/jquery.validate.min.js"
+            th:src="@{/webjars/jquery-validation/1.16.0/jquery.validate.min.js}"></script>
+    <script src="/js/admin/user.js" th:src="@{/js/admin/user.js}"></script>
+</div>
+
+</body>
+</html>

@@ -1,9 +1,12 @@
 package com.hiczp.web.speciality.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -15,6 +18,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     public WebSecurityConfiguration(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
 
     @Override
@@ -32,6 +40,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/account/login").defaultSuccessUrl("/admin")
                 .and().rememberMe()
                 .and().logout().logoutUrl("/account/logout").logoutSuccessUrl("/");
+
+        http.sessionManagement().maximumSessions(-1).expiredUrl("/").sessionRegistry(sessionRegistry());
     }
 
     @Override

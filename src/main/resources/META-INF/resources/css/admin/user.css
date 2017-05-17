@@ -1,0 +1,15 @@
+.user-table tr .hide-if-no-hover {
+    visibility: hidden;
+}
+
+.user-table tr:hover .hide-if-no-hover {
+    visibility: visible;
+}
+
+.user-table i.fa {
+    cursor: pointer;
+}
+
+.table {
+    table-layout: fixed;
+}

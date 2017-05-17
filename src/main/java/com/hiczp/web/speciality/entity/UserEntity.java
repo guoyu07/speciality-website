@@ -44,6 +44,16 @@ public class UserEntity {
         this.email = email;
     }
 
+    @Basic
+    @Column(name = "nick")
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,15 +74,5 @@ public class UserEntity {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
-    }
-
-    @Basic
-    @Column(name = "nick")
-    public String getNick() {
-        return nick;
-    }
-
-    public void setNick(String nick) {
-        this.nick = nick;
     }
 }
