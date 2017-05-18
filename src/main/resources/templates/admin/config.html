@@ -62,6 +62,7 @@
                         <div class="form-group">
                             <label>首页主分类</label>
                             <select class="form-control" th:field="*{mainIndexSort}">
+                                <option value="0">未选择</option>
                                 <option th:each="sortEntity : ${sortEntities}" th:value="${sortEntity.id}"
                                         th:text="${sortEntity.name}">分类名
                                 </option>

@@ -12,6 +12,14 @@ public class ConfigEntity {
     private String key;
     private String value;
 
+    public ConfigEntity() {
+    }
+
+    public ConfigEntity(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
+
     @Id
     @Column(name = "id")
     public int getId() {

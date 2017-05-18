@@ -15,6 +15,16 @@ public class UserEntity {
     private String nick;
     private Collection<ArticleEntity> articlesById;
 
+    public UserEntity() {
+    }
+
+    public UserEntity(int id, String email, String password, String nick) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.nick = nick;
+    }
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)

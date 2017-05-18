@@ -1,5 +1,5 @@
 jQuery(document).ready(function () {
-    jQuery("#config-form select").each(function (index, value) {
+    jQuery("#config-form select.multi-line").each(function (index, value) {
         let select = jQuery(value);
         if (select.children("option[selected]").length === 0) {
             select.parent().remove();

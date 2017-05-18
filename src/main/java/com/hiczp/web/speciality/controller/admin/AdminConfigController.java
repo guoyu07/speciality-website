@@ -57,10 +57,22 @@ public class AdminConfigController {
             map.get("specialityName").setValue(configFormModel.getSpecialityName());
             map.get("copyright").setValue(configFormModel.getCopyright());
             map.get("icp").setValue(configFormModel.getIcp());
-            map.get("navbarSorts").setValue(JSON.toJSONString(configFormModel.getNavbarSorts()));
+            Integer[] navbarSort = configFormModel.getNavbarSorts();
+            if (navbarSort == null) {
+                navbarSort = new Integer[0];
+            }
+            map.get("navbarSorts").setValue(JSON.toJSONString(navbarSort));
             map.get("mainIndexSort").setValue(configFormModel.getMainIndexSort().toString());
-            map.get("indexSorts").setValue(JSON.toJSONString(configFormModel.getIndexSorts()));
-            map.get("carouselImages").setValue(JSON.toJSONString(configFormModel.getCarouselImages()));
+            Integer[] indexSorts = configFormModel.getIndexSorts();
+            if (indexSorts == null) {
+                indexSorts = new Integer[0];
+            }
+            map.get("indexSorts").setValue(JSON.toJSONString(indexSorts));
+            String[] carouselImages = configFormModel.getCarouselImages();
+            if (carouselImages == null) {
+                carouselImages = new String[0];
+            }
+            map.get("carouselImages").setValue(JSON.toJSONString(carouselImages));
             configRepository.save(map.entrySet().parallelStream().map(Map.Entry::getValue).collect(Collectors.toList()));
         } else {
             message = "表单错误";
