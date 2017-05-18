@@ -4,12 +4,11 @@ import com.hiczp.web.speciality.entity.ArticleEntity;
 import com.hiczp.web.speciality.entity.UserEntity;
 import com.hiczp.web.speciality.repository.ArticleRepository;
 import com.hiczp.web.speciality.repository.LoginLogRepository;
+import com.hiczp.web.speciality.repository.SpringSessionRepository;
 import com.hiczp.web.speciality.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.session.SessionInformation;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.session.SessionRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +23,15 @@ public class AdminUserAPIController {
     private UserRepository userRepository;
     private ArticleRepository articleRepository;
     private LoginLogRepository loginLogRepository;
-    private SessionRegistry sessionRegistry;
+    private SessionRepository sessionRepository;
+    private SpringSessionRepository springSessionRepository;
 
-    public AdminUserAPIController(UserRepository userRepository, ArticleRepository articleRepository, LoginLogRepository loginLogRepository, SessionRegistry sessionRegistry) {
+    public AdminUserAPIController(UserRepository userRepository, ArticleRepository articleRepository, LoginLogRepository loginLogRepository, SessionRepository sessionRepository, SpringSessionRepository springSessionRepository) {
         this.userRepository = userRepository;
         this.articleRepository = articleRepository;
         this.loginLogRepository = loginLogRepository;
-        this.sessionRegistry = sessionRegistry;
+        this.sessionRepository = sessionRepository;
+        this.springSessionRepository = springSessionRepository;
     }
 
     @GetMapping("/validate_user")
@@ -49,14 +50,8 @@ public class AdminUserAPIController {
         if (userEntity == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        String email = userEntity.getEmail();
         //退出登录
-        sessionRegistry.getAllPrincipals().parallelStream().forEach(object -> {
-            User user = (User) object;
-            if (user.getUsername().equals(email)) {
-                sessionRegistry.getAllSessions(user, false).parallelStream().forEach(SessionInformation::expireNow);
-            }
-        });
+        springSessionRepository.findByPrincipalName(userEntity.getEmail()).parallelStream().forEach(springSessionEntity -> sessionRepository.delete(springSessionEntity.getSessionId()));
         //将该用户的文章的作者改为 1
         List<ArticleEntity> articleEntities = articleRepository.findByAuthor(id);
         articleEntities.parallelStream().forEach(articleEntity -> articleEntity.setAuthor(1));
