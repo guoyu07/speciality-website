@@ -3,6 +3,7 @@ package com.hiczp.web.speciality.entity;
 import com.hiczp.web.speciality.enumeration.SortType;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by czp on 17-3-3.
@@ -15,6 +16,7 @@ public class SortEntity implements Cloneable {
     private Integer parent;
     private Integer taxis;
     private SortType type;
+    private Collection<ArticleEntity> articlesById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -101,5 +103,14 @@ public class SortEntity implements Cloneable {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @OneToMany(mappedBy = "sortBySort", fetch = FetchType.LAZY)
+    public Collection<ArticleEntity> getArticlesById() {
+        return articlesById;
+    }
+
+    public void setArticlesById(Collection<ArticleEntity> articlesById) {
+        this.articlesById = articlesById;
     }
 }

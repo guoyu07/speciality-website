@@ -30,6 +30,7 @@
                                 <th>名称</th>
                                 <th>类型</th>
                                 <th>排序</th>
+                                <th>文章</th>
                                 <th>操作</th>
                             </tr>
                             <tr th:each="sortEntity : ${sortEntities}">
@@ -40,6 +41,10 @@
                                     <input type="text" style="max-width: 40px" name="taxis"
                                            th:value="${sortEntity.taxis}"/>
                                     <strong class="text-danger hidden"> 需要整数</strong>
+                                </td>
+                                <td>
+                                    <a th:href="@{/admin/article(sortId=${sortEntity.id})}"
+                                       th:text="${sortEntity.articlesById.size()}"></a>
                                 </td>
                                 <td>
                                     <a th:href="@{/admin/sort/{id}(id=${sortEntity.id})}">编辑</a> |
