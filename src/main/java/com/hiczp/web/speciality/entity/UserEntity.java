@@ -1,6 +1,7 @@
 package com.hiczp.web.speciality.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by czp on 17-3-3.
@@ -12,6 +13,7 @@ public class UserEntity {
     private String password;
     private String email;
     private String nick;
+    private Collection<ArticleEntity> articlesById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -74,5 +76,14 @@ public class UserEntity {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "userByAuthor", fetch = FetchType.LAZY)
+    public Collection<ArticleEntity> getArticlesById() {
+        return articlesById;
+    }
+
+    public void setArticlesById(Collection<ArticleEntity> articlesById) {
+        this.articlesById = articlesById;
     }
 }

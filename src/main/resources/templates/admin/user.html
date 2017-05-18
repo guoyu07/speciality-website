@@ -43,8 +43,9 @@
                         <tr>
                             <th style="width: 10%">#ID</th>
                             <th>邮箱</th>
-                            <th>昵称</th>
                             <th>密码</th>
+                            <th>昵称</th>
+                            <th>文章</th>
                             <th style="width: 4%"></th>
                         </tr>
                         </thead>
@@ -53,14 +54,16 @@
                             th:attr="data-id=${userEntity.id},data-email=${userEntity.email},data-nick=${userEntity.nick}">
                             <td th:text="${userEntity.id}"></td>
                             <td th:text="${userEntity.email}"></td>
-                            <td th:inline="text">
-                                <span class="nick">[[${userEntity.nick}]]</span>
-                                <i class="fa fa-pencil text-muted hide-if-no-hover edit-nick"></i>
-                            </td>
                             <td>
                                 <span class="password">●●●●●●●</span>
                                 <i class="fa fa-pencil text-muted hide-if-no-hover edit-password"></i>
                             </td>
+                            <td th:inline="text">
+                                <span class="nick">[[${userEntity.nick}]]</span>
+                                <i class="fa fa-pencil text-muted hide-if-no-hover edit-nick"></i>
+                            </td>
+                            <td><a th:href="@{/admin/article(author=${userEntity.id})}"
+                                   th:text="${userEntity.articlesById.size()}"></a></td>
                             <td><i class="fa fa-trash text-muted hide-if-no-hover" th:if="${userEntity.id!=1}"></i></td>
                         </tr>
                         </tbody>
