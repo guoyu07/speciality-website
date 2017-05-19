@@ -4,6 +4,7 @@ import com.hiczp.web.speciality.entity.UserEntity;
 import com.hiczp.web.speciality.repository.LoginLogRepository;
 import com.hiczp.web.speciality.repository.UserRepository;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,11 +35,7 @@ public class AdminUserController {
     public ModelAndView userPost(ModelAndView modelAndView, String email, String nick, String password) {
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) {
-            userEntity = new UserEntity();
-            userEntity.setEmail(email);
-            userEntity.setNick(nick);
-            userEntity.setPassword(password);
-            userRepository.save(userEntity);
+            userRepository.save(new UserEntity(email, new BCryptPasswordEncoder().encode(password), nick));
         }
         modelAndView.setView(new RedirectView("user"));
         return modelAndView;

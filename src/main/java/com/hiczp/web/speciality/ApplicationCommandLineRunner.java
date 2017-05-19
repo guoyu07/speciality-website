@@ -5,6 +5,7 @@ import com.hiczp.web.speciality.entity.UserEntity;
 import com.hiczp.web.speciality.repository.ConfigRepository;
 import com.hiczp.web.speciality.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
@@ -41,7 +42,7 @@ public class ApplicationCommandLineRunner implements CommandLineRunner {
             System.out.println("请为自己取一个昵称");
             String nick = scanner.nextLine();
 
-            userRepository.save(new UserEntity(1, email, password, nick));
+            userRepository.save(new UserEntity(1, email, new BCryptPasswordEncoder().encode(password), nick));
             System.out.println("#1 用户创建完毕");
             System.out.printf("用户名: %s, 密码: %s, 昵称: %s\n", email, password, nick);
         }
