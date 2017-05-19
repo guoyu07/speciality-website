@@ -41,8 +41,7 @@ public class ApplicationCommandLineRunner implements CommandLineRunner {
             System.out.println("请为自己取一个昵称");
             String nick = scanner.nextLine();
 
-            UserEntity userEntity = new UserEntity(1, email, password, nick);
-            userRepository.save(userEntity);
+            userRepository.save(new UserEntity(1, email, password, nick));
             System.out.println("#1 用户创建完毕");
             System.out.printf("用户名: %s, 密码: %s, 昵称: %s\n", email, password, nick);
         }
