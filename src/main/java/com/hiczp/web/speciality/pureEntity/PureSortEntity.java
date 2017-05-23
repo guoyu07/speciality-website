@@ -17,12 +17,15 @@ public class PureSortEntity {
 
     private Integer taxis;
 
+    private int articleCount;
+
     public PureSortEntity(SortEntity sortEntity) {
         id = sortEntity.getId();
         name = sortEntity.getName();
         parent = sortEntity.getParent();
         type = sortEntity.getType();
         taxis = sortEntity.getTaxis();
+        articleCount = sortEntity.getArticlesById().size();
     }
 
     public int getId() {
@@ -63,5 +66,13 @@ public class PureSortEntity {
 
     public void setTaxis(Integer taxis) {
         this.taxis = taxis;
+    }
+
+    public int getArticleCount() {
+        return articleCount;
+    }
+
+    public void setArticleCount(int articleCount) {
+        this.articleCount = articleCount;
     }
 }
