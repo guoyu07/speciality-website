@@ -91,7 +91,7 @@
                         </a>
                     </span>
                     <span>第</span>
-                    <input class="form-control input-sm" th:value="${articleEntities.number+1}"/>
+                    <input class="form-control input-sm" id="jump-to-page" th:value="${articleEntities.number+1}"/>
                     <span th:inline="text">页, 共[[${articleEntities.totalPages}]]页</span>
                     <span th:fragment="pagination_group_right">
                         <a class="btn btn-default tablenav-pages-navspan link-to-next"

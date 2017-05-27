@@ -129,4 +129,10 @@ jQuery(document).ready(function () {
     jQuery("#article-filter-button").click(function () {
         window.location.href = generateURL("sortId", jQuery("#article-filter-select").val());
     });
+
+    jQuery("#jump-to-page").keydown(function (event) {
+        if (event.which === 13) {
+            window.location.href = generateURL("page", jQuery(this).val() - 1);
+        }
+    });
 });
