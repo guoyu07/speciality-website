@@ -50,7 +50,13 @@ public class HomeController {
             mainIndexSort = sortRepository.findOne(mainIndexSortId);
             mainIndexSortArticles = articleRepository.findTop3BySortAndPublishTrueOrderByCreateTimeDesc(mainIndexSort.getId());
             //将文章内容转成摘要, 摘取前 150 个字
-            mainIndexSortArticles.parallelStream().forEach(articleEntity -> articleEntity.setContent(articleService.getSummary(articleEntity.getContent(), 150)));
+            List<ArticleEntity> mainIndexSortArticlesClone = new ArrayList<>();
+            mainIndexSortArticles.forEach(articleEntity -> {
+                ArticleEntity articleEntityClone = articleEntity.clone();
+                articleEntityClone.setContent(articleService.getSummary(articleEntity.getContent(), 150));
+                mainIndexSortArticlesClone.add(articleEntityClone);
+            });
+            mainIndexSortArticles = mainIndexSortArticlesClone;
         } catch (NumberFormatException e) {
             logger.error("未配置 mainIndexSort");
         } catch (NullPointerException e) {

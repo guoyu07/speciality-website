@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "article", schema = "speciality_website", catalog = "")
-public class ArticleEntity {
+public class ArticleEntity implements Cloneable {
     private int id;
     private String title;
     private String content;
@@ -175,5 +175,14 @@ public class ArticleEntity {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public ArticleEntity clone() {
+        try {
+            return (ArticleEntity) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
