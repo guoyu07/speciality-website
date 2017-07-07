@@ -1,5 +1,7 @@
-.idea/
-out/
-target/
+/.idea
+/out
+/target
+/config
+/resources
 
 *.iml
